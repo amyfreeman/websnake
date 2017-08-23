@@ -7,6 +7,8 @@ import (
 
 type SocketServer struct {
 	port string
+    gameIds map[string]string
+    games map[string]Game
 }
 
 func (ss *SocketServer) Listen() {
@@ -19,20 +21,27 @@ func (ss *SocketServer) Listen() {
 }
 
 func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
+    s.OnRead(func(data string) {
+        fmt.Println("socket read")
+        if data[:8] == "[create]" {
+            ch := make(chan string)
+            ss.gameIds[s.ID()] = data[8:]
+            ss.games[data[8:]] = createGame(data[8:], ch)
+        } else {
+            fmt.Println("sending to channel")
+            ss.games[ss.gameIds[s.ID()]].ch <- data
+        }
+    })
     s.OnClose(func() {
         fmt.Println("socket closed with remote address:", s.RemoteAddr())
     })
-
-    s.OnRead(func(data string) {
-        s.Write(data)
-    })
-
 	fmt.Println("socket open with remote address:", s.RemoteAddr())
-    s.Write("Hello Client")
 }
 
 func createSocketServer(port string) {
 	ss := SocketServer{}
 	ss.port = port
+    ss.gameIds = make(map[string]string)
+    ss.games = make(map[string]Game)
 	ss.Listen()
 }

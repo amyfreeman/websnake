@@ -2,6 +2,7 @@ package main
 
 import (
     "net/http"
+	"fmt"
 )
 
 var port1 string = "8039"
@@ -41,7 +42,7 @@ func handleFriend(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		http.ServeFile(w, r, "public/friend.html")
 	case "POST":
-		// Return game page
+		fmt.Println("recieve")
 	default:
 		// Give an error message.
 	}
