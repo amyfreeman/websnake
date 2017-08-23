@@ -1,1 +1,36 @@
-<h1>friend</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+  </head>
+	<body>
+		<form>
+			Enter your game ID:<br>
+			<input type="text" id="gameId"><br>
+			<input type="button" value="Start a Game" onclick="sendData();">
+		</form>
+		<p>Translation: <span id="translation"></span></p>
+		<script>
+			function sendData(){
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == XMLHttpRequest.DONE ) {
+						if (xhr.status == 200) {
+							document.getElementById("translation").textContent = JSON.parse(xhr.responseText).translation;
+						}
+						else if (xhr.status == 400) {
+							alert('There was an error 400');
+						}
+						else {
+							alert('something else other than 200 was returned');
+						}
+					}
+				};
+				xhr.open("POST", "/", true);
+				xhr.setRequestHeader('Content-Type', 'application/json');
+				xhr.send(JSON.stringify({"text" : document.getElementById("text").value}));
+			}
+		</script>
+	</body>
+</html>
