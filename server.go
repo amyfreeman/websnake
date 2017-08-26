@@ -5,16 +5,16 @@ import (
 	"fmt"
 )
 
-var port1 string = "8039"
-var port2 string = "8040"
+var port1 string = ":8039"
+var port2 string = ":8040"
 
 func main() {
-	go createSocketServer("8003")
+	go createSocketServer(port2)
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/stranger", handleStranger)
 	http.HandleFunc("/friend", handleFriend)
 	http.HandleFunc("/js/glue.js", handleGlue)
-    http.ListenAndServe(":8039", nil)
+    http.ListenAndServe(port1, nil)
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {

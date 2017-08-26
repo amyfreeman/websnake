@@ -19,6 +19,10 @@
 				gameId = document.getElementById('gameId').value;
 				socket.send(gameId);
 			}
+
+			socket.onMessage(function(data) {
+        console.log("onMessage: " + data);
+    	});
 		</script>
 	</body>
 </html>

@@ -8,8 +8,7 @@ import (
 type Game struct {
     gameId string
 	ch chan string
-	p1 *glue.Socket
-	p2 *glue.Socket
+	players []*glue.Socket
 }
 
 func (g *Game) Listen() {
@@ -19,15 +18,18 @@ func (g *Game) Listen() {
 		msg = <- g.ch
 		if msg != "" {
 			fmt.Println("message received: " + msg)
+			g.players[0].Write("pls receive")
 		}
 	}
 }
 
 
-func createGame(gameId string, ch chan string) Game {
+func createGame(gameId string, ch chan string, p1 *glue.Socket) Game {
 	g := Game{}
 	g.gameId = gameId
 	g.ch = ch
+	g.players = make([]*glue.Socket, 1, 4)
+	g.players[0] = p1
 	go g.Listen()
 	return g
 }

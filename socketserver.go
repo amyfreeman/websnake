@@ -13,7 +13,7 @@ type SocketServer struct {
 
 func (ss *SocketServer) Listen() {
 	server := glue.NewServer(glue.Options{
-        HTTPListenAddress: ":" + ss.port,
+        HTTPListenAddress: ss.port,
     })
     defer server.Release()
     server.OnNewSocket(ss.OnNewSocket)
@@ -23,10 +23,10 @@ func (ss *SocketServer) Listen() {
 func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
     s.OnRead(func(data string) {
         fmt.Println("socket read")
-        if data[:8] == "[create]" {
+        if len(data) > 8 && data[:8] == "[create]" {
             ch := make(chan string)
             ss.gameIds[s.ID()] = data[8:]
-            ss.games[data[8:]] = createGame(data[8:], ch)
+            ss.games[data[8:]] = createGame(data[8:], ch, s)
         } else {
             fmt.Println("sending to channel")
             ss.games[ss.gameIds[s.ID()]].ch <- data
