@@ -20,7 +20,6 @@
 			var socket = glue();
 
 			function startNewGame(){
-				console.log('Starting New Game');
 				var c = socket.channel('create');
 				c.send('create');
 			}
@@ -36,7 +35,7 @@
 			}
 
 			socket.onMessage(function(data) {
-        console.log("onMessage: " + data);
+        console.log(data);
     	});
 		</script>
 	</body>

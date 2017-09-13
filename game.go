@@ -12,13 +12,23 @@ type Game struct {
 }
 
 func gameListener(g *Game) {
-	fmt.Printf("Now listening to game address: %p \n", g)
-	var msg string = ""
-	for true {
-		msg = <- (*g).ch
-		if msg != "" { 
+	fmt.Println("Game listening")
+	for i := 0; ; i++  {
+
+		select {
+		case msg, ok := <-(*g).ch:
+			if ok {
+				for _, player := range (*g).players {
+					player.socket.Write(msg)
+				}
+			} else {
+				fmt.Println("Channel closed!")
+			}
+		default:
+		}
+		if i % 100000000 == 0 {
 			for _, player := range (*g).players {
-				player.socket.Write("pls receive")
+				player.socket.Write("Game state changed")
 			}
 		}
 	}
@@ -34,7 +44,6 @@ func createGame(gameId string, ch chan string, socket *glue.Socket) *Game {
 	g.ch = ch
 	g.players = make([]*Player, 1, 4)
 	g.players[0] = createPlayer(socket)
-	fmt.Printf("Real game address: %p \n", &g)
 	go gameListener(&g)
 	return &g
 }
