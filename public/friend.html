@@ -5,19 +5,34 @@
     <title>Test</title>
   </head>
 	<body>
-		<form>
-			Enter your game ID:<br>
+		<div>
+			Start a new game:<br>
+			<input type="button" value="Start a new game" onclick="startNewGame();"><br><br>
+			Join an existing game:<br>
 			<input type="text" id="gameId"><br>
-			<input type="button" value="Start a Game" onclick="sendData();">
-		</form>
+			<input type="button" value="Join an existing game" onclick="joinGame();"><br><br>
+			Send generic socket message:<br>
+			<input type="text" id="message"><br>
+			<input type="button" value="Send generic socket message" onclick="sendMessage();">
+		</div>
 		<script src="./js/glue.js" type="text/javascript"></script>
 		<script>
-			var gameId;
 			var socket = glue();
 
-			function sendData(){
-				gameId = document.getElementById('gameId').value;
-				socket.send(gameId);
+			function startNewGame(){
+				console.log('Starting New Game');
+				var c = socket.channel('create');
+				c.send('create');
+			}
+
+			function joinGame(){
+				var gameId = document.getElementById('gameId').value;
+				var c = socket.channel('join');
+				c.send(gameId);
+			}
+
+			function sendMessage(){
+				socket.send(document.getElementById('message').value);
 			}
 
 			socket.onMessage(function(data) {
