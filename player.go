@@ -6,6 +6,7 @@ import (
 
 type Player struct {
 	socket *glue.Socket
+	name string
 }
 
 func createPlayer(socket *glue.Socket) *Player {

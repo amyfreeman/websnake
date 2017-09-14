@@ -36,12 +36,15 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
     })
     s.Channel("join").OnRead(func(gameId string){
         fmt.Println("Player joining")
-        game := ss.games[gameId]
-        (*game).addPlayer(s)
-        (*game).ch <- "new player"
+        if game, ok := ss.games[gameId]; ok {
+            (*game).addPlayer(s)
+            (*game).ch <- "new player"
+        } else {
+            fmt.Println("join error- wrong gameId")
+        }
     })
     s.OnClose(func(){
-        fmt.Println(s.ID())
+        fmt.Println("socket closed with remote address:", s.RemoteAddr())
     })
 	fmt.Println("socket open with remote address:", s.RemoteAddr())
 }
