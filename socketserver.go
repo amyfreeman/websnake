@@ -38,6 +38,8 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
             }
         } else if (data == "friend"){
             fmt.Println("friend")
+        } else if (data == "left"){
+            ss.games[ss.gameIds[s.ID()]].leftPress(s.ID())
         }
     })
     

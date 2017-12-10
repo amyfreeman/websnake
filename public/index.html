@@ -14,13 +14,13 @@
     </div>
     <div id="status">
     </div>
+    <button type="button" onclick="leftPress()">Left</button>
     <canvas id="back"></canvas>
     <script src="./js/glue.js" type="text/javascript"></script>
     <script>
         var socket = glue();
         initializeCanvas();
         initializeSocket(socket);
-
 
         function strangerClick(){
             document.getElementById("page1").remove();
@@ -38,6 +38,22 @@
 
         function updateStatus(status){
             document.getElementById("status").innerHTML = "<p>" + status + "</p>";
+        }
+
+        function leftPress(){
+            socket.send("left");
+        }
+
+        function rightPress(){
+            socket.send("right");
+        }
+
+        function upPress(){
+            socket.send("up");
+        }
+
+        function downPress(){
+            socket.send("down");
         }
 
         function initializeCanvas(){
