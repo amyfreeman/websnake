@@ -5,49 +5,96 @@
     <title>Test</title>
   </head>
   <body>
-    <div id="content">Hello Team</div>
+    <div id="page1">
+        <p>Hello, Player</p>
+        <div id="buttonbar">
+            <button type="button" onclick="strangerClick()">Play Stranger</button>
+            <button type="button" onclick="friendClick()">Play Friend</button>
+        </div>
+    </div>
+    <div id="status">
+    </div>
+    <canvas id="back"></canvas>
     <script src="./js/glue.js" type="text/javascript"></script>
     <script>
-      var socket = glue();
+        var socket = glue();
+        initializeCanvas();
+        initializeSocket(socket);
 
-      socket.onMessage(function(data) {
-          console.log("onMessage: " + data);
 
-          // Echo the message back to the server.
-          //socket.send("echo: " + data);
-      });
+        function strangerClick(){
+            document.getElementById("page1").remove();
+            updateStatus("connecting...")
+            console.log("now connecting to stranger");
+            socket.send("stranger");
+        }
 
-      socket.on("connected", function() {
-          console.log("connected");
-      });
+        function friendClick(){
+            document.getElementById("page1").remove();
+            updateState("Creating game at [address]")
+            console.log("TODO")
+            socket.send("friend");
+        }
 
-      socket.on("connecting", function() {
-          console.log("connecting");
-      });
+        function updateStatus(status){
+            document.getElementById("status").innerHTML = "<p>" + status + "</p>";
+        }
 
-      socket.on("disconnected", function() {
-          console.log("disconnected");
-      });
+        function initializeCanvas(){
+            canvas = document.querySelector("#back");
+            ctx = canvas.getContext("2d");
+            ctx.canvas.width  = 200;
+            ctx.canvas.height = 200;
+            ctx.fillStyle = "blue";
+            ctx.beginPath();
+            ctx.arc(200, 200, 50, 0, 2 * Math.PI);
+            ctx.fill();
+        }
 
-      socket.on("reconnecting", function() {
-          console.log("reconnecting");
-      });
+        function initializeSocket(socket){
+            socket.onMessage(function(data) {
+                if (data == "game beginning"){
+                    updateStatus("Game Beginning!")
+                }
 
-      socket.on("error", function(e, msg) {
-          console.log("error: " + msg);
-      });
+                console.log("MESSAGE: " + data);
 
-      socket.on("connect_timeout", function() {
-          console.log("connect_timeout");
-      });
+                // Echo the message back to the server.
+                //socket.send("echo: " + data);
+            });
 
-      socket.on("timeout", function() {
-          console.log("timeout");
-      });
+            socket.on("connected", function() {
+                console.log("connected");
+            });
 
-      socket.on("discard_send_buffer", function() {
-          console.log("some data could not be send and was discarded.");
-      });
+            socket.on("connecting", function() {
+                console.log("connecting");
+            });
+
+            socket.on("disconnected", function() {
+                console.log("disconnected");
+            });
+
+            socket.on("reconnecting", function() {
+                console.log("reconnecting");
+            });
+
+            socket.on("error", function(e, msg) {
+                console.log("error: " + msg);
+            });
+
+            socket.on("connect_timeout", function() {
+                console.log("connect_timeout");
+            });
+
+            socket.on("timeout", function() {
+                console.log("timeout");
+            });
+
+            socket.on("discard_send_buffer", function() {
+                console.log("some data could not be send and was discarded.");
+            });
+        }
     </script>
   </body>
 </html>

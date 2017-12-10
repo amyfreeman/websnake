@@ -1,3 +1,5 @@
+//For now, player is ENTIRELY defined by current glue socket.
+
 package main
 
 import (
