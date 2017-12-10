@@ -11,7 +11,6 @@ var PORT1 = ":8039"
 var PORT2 = ":8040"
 
 func main() {
-	testGame();
 	go createSocketServer(PORT2)
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/js/glue.js", handleGlue)
@@ -51,7 +50,20 @@ func handleFriend(w http.ResponseWriter, r *http.Request) {
 }
 
 func testGame(){
+	fmt.Println(string(3))
 	sn := snake.CreateSnake()
+	sn.Step()
+	sn.Step()
+	sn.Move(1, 0)
+	sn.Step()
+	sn.Step()
+	sn.Move(1, 3)
+	sn.Step()
+	sn.Move(1, 2)
+	sn.Step()
+	sn.Step()
+	sn.Step()
+	sn.Step()
 	sn.PrintState()
 	os.Exit(3)
 }

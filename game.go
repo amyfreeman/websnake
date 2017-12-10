@@ -11,12 +11,12 @@ type Game struct {
 	ch chan string
 	players []*Player
 	snake *snake.Snake
+	gameover bool
 }
 
 func gameListener(g *Game) {
 	fmt.Println("Game listening")
-	//refactor for time based looping
-	for i := 0; ; i++  {
+	for true{
 		select {
 		case msg, ok := <-(*g).ch:
 			if ok {
@@ -28,7 +28,7 @@ func gameListener(g *Game) {
 			}
 		default:
 		}
-		if i % 100000000 == 0 { //refactor for time-based looping
+		if i % 100000000 == 0 {
 			for _, player := range (*g).players {
 				player.socket.Write("Game state changed")
 			}

@@ -12,7 +12,7 @@ type Body struct {
 	addCell bool
 }
 
-func (b *Body) step() bool{
+func (b *Body) step(){
 	b.dir = b.nextDir
 	if b.addCell {
 		b.addCell = false
@@ -29,7 +29,6 @@ func (b *Body) step() bool{
 		b.head = Cell{b.head.x, b.head.y - 1}
 	}
 	b.cells = append(b.cells, b.head)
-	return b.stepCheck()
 }
 
 func (b *Body) setDir(dir int){
@@ -42,7 +41,7 @@ func (b *Body) grow(){
 	b.addCell = true
 }
 
-func (b *Body) stepCheck() bool{
+func (b *Body) legalCheck() bool{
 	for i:= 0; i < len(b.cells) - 1; i++ {
 		if b.head.x == b.cells[i].x && b.head.y == b.cells[i].y {
 			return true
