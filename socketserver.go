@@ -7,10 +7,10 @@ import (
 )
 
 type SocketServer struct {
-	port string
-    gameIds map[string]string //mapping from socket ID to game ID
-    games map[string] *Game //mapping from game ID to game pointer
-    nextStranger *glue.Socket
+    port string
+    players map[string] *Player
+    games map[*Player] *Game
+    nextStranger *Player
 }
 
 func (ss *SocketServer) Listen() {
@@ -24,56 +24,57 @@ func (ss *SocketServer) Listen() {
 
 func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
     s.OnRead(func(data string){
+        p := ss.players[s.ID()]
         if (data == "stranger"){
             fmt.Println("stranger")
             if (ss.nextStranger == nil){
-                ss.nextStranger = s
+                ss.nextStranger = p
                 s.Write("confirmed. waiting for stranger")
             } else{
-                var s2 *glue.Socket = ss.nextStranger
+                var p2 *Player = ss.nextStranger
                 ss.nextStranger = nil
-                s2.Write("game beginning")
-                s.Write("game beginning")
-                ss.makeGame(s, s2)
+                ss.makeGame(p, p2)
             }
         } else if (data == "friend"){
             fmt.Println("friend")
         } else if (data == "left"){
-            ss.games[ss.gameIds[s.ID()]].leftPress(s.ID())
+            ss.games[p].leftPress(s.ID())
         } else if (data == "right"){
-            ss.games[ss.gameIds[s.ID()]].rightPress(s.ID())
+            ss.games[p].rightPress(s.ID())
         } else if (data == "up"){
-            ss.games[ss.gameIds[s.ID()]].upPress(s.ID())
+            ss.games[p].upPress(s.ID())
         } else if (data == "down"){
-            ss.games[ss.gameIds[s.ID()]].downPress(s.ID())
+            ss.games[p].downPress(s.ID())
         }
     })
     
     s.OnClose(func(){
         fmt.Println("socket closed with remote address:", s.RemoteAddr())
     })
+
+    p := createPlayer(s)
+    ss.players[s.ID()] = p
+
 	fmt.Println("socket open with remote address:", s.RemoteAddr())
 }
 
-func (ss *SocketServer) makeGame(s1 *glue.Socket, s2 *glue.Socket) {
+func (ss *SocketServer) makeGame(p1 *Player, p2 *Player) {
     fmt.Println("Making Game")
-    ch := make(chan string)
     u4, err := uuid.NewV4()
     if err != nil {
         fmt.Println("error:", err)
     }
     gameId := u4.String()
-    ss.gameIds[s1.ID()] = gameId
-    ss.gameIds[s2.ID()] = gameId
-    game := createGame(gameId, ch, s1, s2)
-    ss.games[gameId] = game
+    game := createGame(gameId, p1, p2)
+    ss.games[p1] = game
+    ss.games[p2] = game
 }
 
 func createSocketServer(port string) {
 	ss := SocketServer{}
 	ss.port = port
-    ss.gameIds = make(map[string]string)
-    ss.games = make(map[string] *Game)
+    ss.players = make(map[string] *Player)
+    ss.games = make(map[*Player] *Game)
     ss.nextStranger = nil
 	ss.Listen()
 }

@@ -15,6 +15,7 @@ func main() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/js/glue.js", handleGlue)
 	http.HandleFunc("/js/snake.js", handleSnake)
+	http.HandleFunc("/js/socket.js", handleSocket)
 	fmt.Println("Now Serving.")
 	http.ListenAndServe(PORT1, nil)
 }
@@ -75,4 +76,8 @@ func handleGlue(w http.ResponseWriter, r *http.Request) {
 
 func handleSnake(w http.ResponseWriter, r *http.Request) {
     http.ServeFile(w, r, "public/js/snake.js")
+}
+
+func handleSocket(w http.ResponseWriter, r *http.Request) {
+    http.ServeFile(w, r, "public/js/socket.js")
 }

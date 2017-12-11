@@ -5,17 +5,11 @@ var NUM_SNAKES = 2;
 var NUM_FOODS = 1;
 
 //gui variables
-var TOTAL_WIDTH = 200;
-var TOTAL_HEIGHT = 200;
+var CANVAS_WIDTH = 200;
+var CANVAS_HEIGHT = 200;
 
-var COLUMN_WIDTH = TOTAL_WIDTH / GAME_WIDTH;
-var ROW_HEIGHT = TOTAL_HEIGHT / GAME_HEIGHT
-
-function drawField(){
-    ctx.moveTo(0, 0);
-    ctx.lineTo(100, 100);
-    ctx.stroke();
-}
+var COLUMN_WIDTH = CANVAS_WIDTH / GAME_WIDTH;
+var ROW_HEIGHT = CANVAS_HEIGHT / GAME_HEIGHT
 
 function drawFromMsg(msg){
     console.log(msg);
