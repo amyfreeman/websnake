@@ -18,8 +18,8 @@ function drawField(){
 }
 
 function drawFromMsg(msg){
-    msg = msg.split("");
     console.log(msg);
+    msg = msg.split("");
     //assert(msg.length == GAME_WIDTH * GAME_HEIGHT);
     for (var i = 0; i < GAME_WIDTH; i++){
         for (var j = 0; j < GAME_HEIGHT; j++){
@@ -34,7 +34,7 @@ function drawFromMsg(msg){
             else{
                 ctx.fillStyle = "green";
             }
-            ctx.rect(i * COLUMN_WIDTH, j * ROW_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT);
+            ctx.rect(i * COLUMN_WIDTH, ROW_HEIGHT * GAME_HEIGHT - (j + 1)* ROW_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT);
             ctx.fill();
         }
     }

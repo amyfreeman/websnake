@@ -18,6 +18,7 @@ type Game struct {
 func gameListener(g *Game) {
 	fmt.Println("Game listening")
 	str := g.snake.GetStateString();
+	fmt.Println(str)
 	for _, player := range (*g).players {
 		player.socket.Write(str)
 	}
