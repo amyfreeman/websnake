@@ -14,6 +14,7 @@ func main() {
 	go createSocketServer(PORT2)
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/js/glue.js", handleGlue)
+	http.HandleFunc("/js/snake.js", handleSnake)
 	fmt.Println("Now Serving.")
 	http.ListenAndServe(PORT1, nil)
 }
@@ -70,4 +71,8 @@ func testGame(){
 
 func handleGlue(w http.ResponseWriter, r *http.Request) {
     http.ServeFile(w, r, "public/js/glue.js")
+}
+
+func handleSnake(w http.ResponseWriter, r *http.Request) {
+    http.ServeFile(w, r, "public/js/snake.js")
 }

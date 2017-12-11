@@ -7,7 +7,7 @@ import (
 
 var GAME_WIDTH = 10
 var GAME_HEIGHT = 10
-var NUM_SNAKES = 4
+var NUM_SNAKES = 2
 var NUM_FOODS = 1
 
 type Snake struct {
@@ -87,6 +87,16 @@ func (sn *Snake) getObjectAt(cell Cell) string{
 		}
 	}
 	return "."
+}
+
+func (sn *Snake) GetStateString() string{
+	var str string = ""
+	for i := 0; i < GAME_WIDTH; i++{
+		for j := 0; j < GAME_HEIGHT; j++{
+			str += sn.getObjectAt(Cell{i, j});
+		}
+	}
+	return str
 }
 
 func (sn *Snake) PrintState(){

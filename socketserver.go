@@ -40,6 +40,12 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
             fmt.Println("friend")
         } else if (data == "left"){
             ss.games[ss.gameIds[s.ID()]].leftPress(s.ID())
+        } else if (data == "right"){
+            ss.games[ss.gameIds[s.ID()]].rightPress(s.ID())
+        } else if (data == "up"){
+            ss.games[ss.gameIds[s.ID()]].upPress(s.ID())
+        } else if (data == "down"){
+            ss.games[ss.gameIds[s.ID()]].downPress(s.ID())
         }
     })
     

@@ -17,6 +17,10 @@ type Game struct {
 
 func gameListener(g *Game) {
 	fmt.Println("Game listening")
+	str := g.snake.GetStateString();
+	for _, player := range (*g).players {
+		player.socket.Write(str)
+	}
 	t := time.Now()
 	for !g.gameover{
 		select {
@@ -35,8 +39,9 @@ func gameListener(g *Game) {
 			t = time.Now()
 			g.snake.Step()
 			g.snake.PrintState()
+			str = g.snake.GetStateString()
 			for _, player := range (*g).players {
-				player.socket.Write("Game state changed")
+				player.socket.Write(str)
 			}
 		}
 	}
@@ -46,6 +51,30 @@ func (g *Game) leftPress(socketId string){
 	for i := 0; i < len(g.players); i++{
 		if g.players[i].socket.ID() == socketId {
 			g.snake.Move(i, 2)
+		}
+	}
+}
+
+func (g *Game) rightPress(socketId string){
+	for i := 0; i < len(g.players); i++{
+		if g.players[i].socket.ID() == socketId {
+			g.snake.Move(i, 0)
+		}
+	}
+}
+
+func (g *Game) upPress(socketId string){
+	for i := 0; i < len(g.players); i++{
+		if g.players[i].socket.ID() == socketId {
+			g.snake.Move(i, 1)
+		}
+	}
+}
+
+func (g *Game) downPress(socketId string){
+	for i := 0; i < len(g.players); i++{
+		if g.players[i].socket.ID() == socketId {
+			g.snake.Move(i, 3)
 		}
 	}
 }
