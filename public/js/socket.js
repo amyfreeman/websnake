@@ -1,7 +1,7 @@
 function initializeSocket(socket){
     socket.onMessage(function(data) {
         if (data == "game beginning"){
-            updateStatus("Game Beginning!")
+            updateStatus(data)
         }
         else if (data == "confirmed. waiting for stranger"){
             updateStatus(data);
@@ -9,9 +9,6 @@ function initializeSocket(socket){
         else{
             drawFromMsg(data);
         }
-
-        // Echo the message back to the server.
-        //socket.send("echo: " + data);
     });
 
     socket.on("connected", function() {
@@ -45,4 +42,20 @@ function initializeSocket(socket){
     socket.on("discard_send_buffer", function() {
         console.log("some data could not be send and was discarded.");
     });
+}
+
+function leftPress(){
+    socket.send("left");
+}
+
+function rightPress(){
+    socket.send("right");
+}
+
+function upPress(){
+    socket.send("up");
+}
+
+function downPress(){
+    socket.send("down");
 }

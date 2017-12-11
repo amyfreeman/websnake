@@ -42,29 +42,6 @@
             document.getElementById("status").innerHTML = "<p>" + status + "</p>";
         }
 
-        function leftPress(){
-            socket.send("left");
-        }
-
-        function rightPress(){
-            socket.send("right");
-        }
-
-        function upPress(){
-            socket.send("up");
-        }
-
-        function downPress(){
-            socket.send("down");
-        }
-
-        function initializeCanvas(){
-            canvas = document.querySelector("#back");
-            ctx = canvas.getContext("2d");
-            ctx.canvas.width  = 200;
-            ctx.canvas.height = 200;
-        }
-
         function initializeKeypresses(){
             window.addEventListener('keydown', function(event) {
                 switch (event.keyCode) {

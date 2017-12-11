@@ -11,6 +11,13 @@ var CANVAS_HEIGHT = 200;
 var COLUMN_WIDTH = CANVAS_WIDTH / GAME_WIDTH;
 var ROW_HEIGHT = CANVAS_HEIGHT / GAME_HEIGHT
 
+function initializeCanvas(){
+    canvas = document.querySelector("#back");
+    ctx = canvas.getContext("2d");
+    ctx.canvas.width  = CANVAS_WIDTH;
+    ctx.canvas.height = CANVAS_HEIGHT;
+}
+
 function drawFromMsg(msg){
     console.log(msg);
     msg = msg.split("");
@@ -25,8 +32,14 @@ function drawFromMsg(msg){
             else if (c == "F"){
                 ctx.fillStyle = "red";
             }
-            else{
+            else if (c == "0"){
                 ctx.fillStyle = "green";
+            }
+            else if (c == "1"){
+                ctx.fillStyle = "blue";
+            }
+            else{
+                ctx.fillStyle = "yellow";
             }
             ctx.rect(i * COLUMN_WIDTH, ROW_HEIGHT * GAME_HEIGHT - (j + 1)* ROW_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT);
             ctx.fill();

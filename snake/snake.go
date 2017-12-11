@@ -114,7 +114,7 @@ func CreateSnake() *Snake{
 	sn.height = GAME_HEIGHT
 	sn.bodies = make([]*Body, NUM_SNAKES, NUM_SNAKES)
 	if NUM_SNAKES == 2{
-		sn.bodies[0] = createBody(0, 1, 0, GAME_WIDTH * GAME_HEIGHT)
+		sn.bodies[0] = createBody(0, 0, 0, GAME_WIDTH * GAME_HEIGHT)
 		sn.bodies[1] = createBody(GAME_WIDTH - 1, GAME_HEIGHT - 1, 2, GAME_WIDTH * GAME_HEIGHT)
 	} else if NUM_SNAKES == 4{
 		sn.bodies[0] = createBody(0, 0, 0, GAME_WIDTH * GAME_HEIGHT)

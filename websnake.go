@@ -12,6 +12,7 @@ var PORT2 = ":8040"
 
 func main() {
 	go createSocketServer(PORT2)
+	//use a static server
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/js/glue.js", handleGlue)
 	http.HandleFunc("/js/snake.js", handleSnake)

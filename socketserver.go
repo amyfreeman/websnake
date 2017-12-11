@@ -25,7 +25,9 @@ func (ss *SocketServer) Listen() {
 func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
     s.OnRead(func(data string){
         p := ss.players[s.ID()]
-        if (data == "stranger"){
+
+        switch data{
+        case "stranger":
             fmt.Println("stranger")
             if (ss.nextStranger == nil){
                 ss.nextStranger = p
@@ -35,16 +37,16 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
                 ss.nextStranger = nil
                 ss.makeGame(p, p2)
             }
-        } else if (data == "friend"){
+        case "friend":
             fmt.Println("friend")
-        } else if (data == "left"){
-            ss.games[p].leftPress(s.ID())
-        } else if (data == "right"){
-            ss.games[p].rightPress(s.ID())
-        } else if (data == "up"){
-            ss.games[p].upPress(s.ID())
-        } else if (data == "down"){
-            ss.games[p].downPress(s.ID())
+        case "left":
+            ss.games[p].keyPress(p, 2)
+        case "right":
+            ss.games[p].keyPress(p, 0)
+        case "up":
+            ss.games[p].keyPress(p, 1)
+        case "down":
+            ss.games[p].keyPress(p, 3)
         }
     })
     
@@ -55,7 +57,8 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
     p := createPlayer(s)
     ss.players[s.ID()] = p
 
-	fmt.Println("socket open with remote address:", s.RemoteAddr())
+    fmt.Println("socket open with remote address:", s.RemoteAddr())
+    s.Write("0................F.................................................................................1")
 }
 
 func (ss *SocketServer) makeGame(p1 *Player, p2 *Player) {

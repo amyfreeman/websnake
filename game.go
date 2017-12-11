@@ -32,34 +32,10 @@ func (g *Game) notifyAll(msg string){
 	}
 }
 
-func (g *Game) leftPress(socketId string){
+func (g *Game) keyPress(p *Player, dir int){
 	for i := 0; i < len(g.players); i++{
-		if g.players[i].socket.ID() == socketId {
-			g.snake.Move(i, 2)
-		}
-	}
-}
-
-func (g *Game) rightPress(socketId string){
-	for i := 0; i < len(g.players); i++{
-		if g.players[i].socket.ID() == socketId {
-			g.snake.Move(i, 0)
-		}
-	}
-}
-
-func (g *Game) upPress(socketId string){
-	for i := 0; i < len(g.players); i++{
-		if g.players[i].socket.ID() == socketId {
-			g.snake.Move(i, 1)
-		}
-	}
-}
-
-func (g *Game) downPress(socketId string){
-	for i := 0; i < len(g.players); i++{
-		if g.players[i].socket.ID() == socketId {
-			g.snake.Move(i, 3)
+		if g.players[i] == p {
+			g.snake.Move(i, dir)
 		}
 	}
 }
