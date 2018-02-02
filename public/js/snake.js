@@ -21,28 +21,26 @@ function initializeCanvas(){
 function drawFromMsg(msg){
     console.log(msg);
     msg = msg.split("");
-    //assert(msg.length == GAME_WIDTH * GAME_HEIGHT);
     for (var i = 0; i < GAME_WIDTH; i++){
         for (var j = 0; j < GAME_HEIGHT; j++){
-            ctx.beginPath();
             var c = msg[i * GAME_WIDTH + j]
-            if (c == "."){
-                ctx.fillStyle = "black";
+            switch (c) {
+                case ".":
+                    ctx.fillStyle = "black";
+                    break;
+                case "F":
+                    ctx.fillStyle = "red";
+                    break;
+                case "0":
+                    ctx.fillStyle = "green";
+                    break;
+                case "1":
+                    ctx.fillStyle = "blue";
+                    break;
+                default:
+                    ctx.fillStyle = "yellow";
             }
-            else if (c == "F"){
-                ctx.fillStyle = "red";
-            }
-            else if (c == "0"){
-                ctx.fillStyle = "green";
-            }
-            else if (c == "1"){
-                ctx.fillStyle = "blue";
-            }
-            else{
-                ctx.fillStyle = "yellow";
-            }
-            ctx.rect(i * COLUMN_WIDTH, ROW_HEIGHT * GAME_HEIGHT - (j + 1)* ROW_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT);
-            ctx.fill();
+            ctx.fillRect(i * COLUMN_WIDTH, ROW_HEIGHT * GAME_HEIGHT - (j + 1)* ROW_HEIGHT, COLUMN_WIDTH, ROW_HEIGHT);
         }
     }
 }

@@ -35,7 +35,7 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
             } else{
                 var p2 *Player = ss.nextStranger
                 ss.nextStranger = nil
-                ss.makeGame(p, p2)
+                ss.makeGame(p2, p)
             }
         case "friend":
             fmt.Println("friend")
