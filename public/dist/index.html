@@ -2,22 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" >
     <title>TEST TEST</title>
 </head>
-<body>
-    <canvas id="maincanvas"></canvas>
-    <div id="create-article-form">
-        <!-- form -->
+<body style="background-color:#111111">
+    <div id="container">
+        <div id="canvas-container" style="min-height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center">
+            <canvas id="maincanvas"></canvas>
+            <div id="create-article-form">
+                <!-- form -->
+            </div>
+        </div>
     </div>
-    <script>
-        canvas = document.querySelector("#maincanvas");
-        ctx = canvas.getContext("2d");
-        size = Math.min(window.innerWidth, window.innerHeight)
-        ctx.canvas.width  = size;
-        ctx.canvas.height = size;
-        ctx.fillStyle = "blue";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-    </script>
+    <script src="./js/snake.js"></script>
 <script type="text/javascript" src="js/main.js"></script></body>
 </html>

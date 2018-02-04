@@ -1,1 +1,1 @@
-import FormContainer from "./components/container/FormContainer";
+import Modal from "./components/Modal";
