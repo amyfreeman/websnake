@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" >
+    <title>TEST TEST</title>
+</head>
+<body>
+    <canvas id="maincanvas"></canvas>
+    <div id="create-article-form">
+        <!-- form -->
+    </div>
+    <script>
+        canvas = document.querySelector("#maincanvas");
+        ctx = canvas.getContext("2d");
+        size = Math.min(window.innerWidth, window.innerHeight)
+        ctx.canvas.width  = size;
+        ctx.canvas.height = size;
+        ctx.fillStyle = "blue";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    </script>
+<script type="text/javascript" src="js/main.js"></script></body>
+</html>
