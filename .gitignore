@@ -1,3 +1,4 @@
 *.exe
 websnake
 public/node_modules
+public/dist

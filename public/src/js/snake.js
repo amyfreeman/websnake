@@ -1,15 +1,14 @@
-NUM_ROWS = 10;
-NUM_COLS = 10;
-BOARD_SIZE = 0.8 * Math.min(window.innerWidth, window.innerHeight);
-CELL_WIDTH = BOARD_SIZE / NUM_COLS;
-CELL_HEIGHT = BOARD_SIZE / NUM_ROWS;
-canvas = document.querySelector("#maincanvas");
-ctx = canvas.getContext("2d");
+const NUM_ROWS = 10;
+const NUM_COLS = 10;
+const BOARD_SIZE = 0.8 * Math.min(window.innerWidth, window.innerHeight);
+const CELL_WIDTH = BOARD_SIZE / NUM_COLS;
+const CELL_HEIGHT = BOARD_SIZE / NUM_ROWS;
+const canvas = document.querySelector("#maincanvas");
+const ctx = canvas.getContext("2d");
 ctx.canvas.width  = BOARD_SIZE;
 ctx.canvas.height = BOARD_SIZE;
 ctx.fillStyle = "#000000";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
-
 
 ctx.strokeStyle = "#00FF00";
 ctx.lineWidth = 10;

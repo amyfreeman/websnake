@@ -999,6 +999,8 @@ var _Modal2 = _interopRequireDefault(_Modal);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+__webpack_require__(31);
+
 /***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -18443,6 +18445,15 @@ function Button(props) {
 }
 
 exports.default = Button;
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+console.log("logger is loaded");
 
 /***/ })
 /******/ ]);
