@@ -17,7 +17,7 @@ func main() {
 	http.HandleFunc("/js/glue.js", handleGlue)
 	http.HandleFunc("/js/snake.js", handleSnake)
 	http.HandleFunc("/js/socket.js", handleSocket)
-	fmt.Println("Now Serving.")
+	fmt.Println("Now Serving on port " + PORT1)
 	http.ListenAndServe(PORT1, nil)
 }
 
