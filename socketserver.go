@@ -1,6 +1,7 @@
 package main
 
 import (
+    "net/http"
 	"github.com/desertbit/glue"
     "github.com/nu7hatch/gouuid"
 	"fmt"
@@ -14,12 +15,16 @@ type SocketServer struct {
 }
 
 func (ss *SocketServer) Listen() {
+	http.Handle("/", http.FileServer(http.Dir("public/dist")))
 	server := glue.NewServer(glue.Options{
-        HTTPListenAddress: ss.port,
-    })
+		HTTPListenAddress: ss.port,
+	})
     defer server.Release()
     server.OnNewSocket(ss.OnNewSocket)
-	server.Run()
+	err := server.Run()
+	if err != nil{
+		fmt.Println(err)
+	}
 }
 
 func (ss *SocketServer) OnNewSocket(s *glue.Socket) {

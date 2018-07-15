@@ -1,20 +1,15 @@
 package main
 
 import (
-    "net/http"
 	"fmt"
 	"os"
 	"github.com/cdalizadeh/websnake/snake"
 )
 
-var PORT1 = ":8039"
-var PORT2 = ":8040"
+var PORT = ":8069"
 
 func main() {
-	go createSocketServer(PORT2)
-
-	fmt.Println("Now Serving on port " + PORT1)
-	http.ListenAndServe(PORT1, http.FileServer(http.Dir("./public/dist")))
+	createSocketServer(PORT)
 }
 
 func testGame(){

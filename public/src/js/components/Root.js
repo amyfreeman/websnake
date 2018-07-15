@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import Modal from "./Modal.js"
+import Modal from "./Modal.js";
+import {startGame3} from "../controller.js";
 
 class Root extends Component {
   constructor() {
@@ -22,8 +23,10 @@ class Root extends Component {
     );
   }
   startGame() {
-    console.log("booyeah");
     this.setState(prevState => ({ modalVisible: false }));
+    console.log(1);
+    startGame3();
+    console.log(2);
   }
 }
 export default Root;

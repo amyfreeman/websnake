@@ -1,5 +1,3 @@
-require('./snake');
-require('./socket');
-require('./glue');
+require('./main');
 
 import Root from "./components/Root";
