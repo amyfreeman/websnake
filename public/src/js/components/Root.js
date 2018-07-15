@@ -5,16 +5,25 @@ import Modal from "./Modal.js"
 class Root extends Component {
   constructor() {
     super();
+    this.state = {
+      modalVisible: true
+    }
+    this.startGame = this.startGame.bind(this)
   }
   render() {
     return (
       <div id="root">
-        <Modal startGame={this.startGame}/>
+        {
+          this.state.modalVisible
+          ? <Modal startGame={this.startGame}/>
+          : null
+        }
       </div>
     );
   }
   startGame() {
     console.log("booyeah");
+    this.setState(prevState => ({ modalVisible: false }));
   }
 }
 export default Root;
