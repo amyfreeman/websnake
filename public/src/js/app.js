@@ -2,4 +2,4 @@ require('./snake');
 require('./socket');
 require('./glue');
 
-import Modal from "./components/Modal";
+import Root from "./components/Root";

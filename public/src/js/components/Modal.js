@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import ModalContent from "./ModalContent.js"
 
 class Modal extends Component {
@@ -21,15 +20,9 @@ class Modal extends Component {
     };
     return (
       <div id="modal" style={style}>
-        <ModalContent startGame={this.startGame} />
+        <ModalContent startGame={this.props.startGame} />
       </div>
     );
   }
-  startGame() {
-    console.log("booyeah");
-  }
 }
 export default Modal;
-
-const wrapper = document.getElementById("react-root");
-wrapper ? ReactDOM.render(<Modal />, wrapper) : false;
