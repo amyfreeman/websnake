@@ -21,9 +21,12 @@ class Modal extends Component {
     };
     return (
       <div id="modal" style={style}>
-        <ModalContent />
+        <ModalContent startGame={this.startGame} />
       </div>
     );
+  }
+  startGame() {
+    console.log("booyeah");
   }
 }
 export default Modal;

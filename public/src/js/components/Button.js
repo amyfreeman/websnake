@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 function Button(props){
     return (
-        <button type="button" onClick={props.clickFunction}>{props.label}</button>
+        <button type="button" onClick={props.onClick}>{props.label}</button>
     );
 }
 

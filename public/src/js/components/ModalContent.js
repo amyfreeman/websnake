@@ -16,15 +16,10 @@ class ModalContent extends Component {
       <div id="content" style={style}>
         <h1>Welcome to WebSnake</h1>
         <p>The best game ever</p>
-        <Button label={"words"} clickFunction={tempFunction} />
-        <Button label={"words3"} clickFunction={tempFunction}/>
+        <Button label={"Start a Game"} onClick={this.props.startGame} />
       </div>
     );
   }
-}
-
-function tempFunction(){
-  console.log(10);
 }
 
 export default ModalContent;

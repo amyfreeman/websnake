@@ -13,7 +13,7 @@ var PORT2 = ":8040"
 func main() {
 	go createSocketServer(PORT2)
 
-	fmt.Println("Now Serving.")
+	fmt.Println("Now Serving on port " + PORT1)
 	http.ListenAndServe(PORT1, http.FileServer(http.Dir("./public/dist")))
 }
 
