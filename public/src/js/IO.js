@@ -1,4 +1,5 @@
 import {glue} from './glue.js';
+import {Root} from './components/Root.js'
 
 class IO{
     constructor(){

@@ -20,7 +20,7 @@ class Modal extends Component {
     };
     return (
       <div id="modal" style={style}>
-        <ModalContent startGame={this.props.startGame} />
+        <ModalContent/>
       </div>
     );
   }

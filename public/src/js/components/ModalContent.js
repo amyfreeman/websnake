@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import Button from "./Button.js"
+import {io} from "../IO.js";
 
 class ModalContent extends Component {
   constructor() {
     super();
+    this.state = {
+      message: "Welcome",
+      buttonVisible: "false"
+    }
+    this.startButtonPress = this.startButtonPress.bind(this)
   }
   render() {
     var style = {
@@ -13,11 +19,18 @@ class ModalContent extends Component {
     };
     return (
       <div id="content" style={style}>
-        <h1>Welcome to WebSnake</h1>
-        <p>The best game ever</p>
-        <Button label={"Start a Game"} onClick={this.props.startGame} />
+        <h1>{this.state.message}</h1>
+        {
+          this.state.buttonVisible? 
+          <Button label={"Start a Game"} onClick={this.startButtonPress} /> :
+          null
+        }
       </div>
     );
+  }
+  startButtonPress(){
+    this.setState({message: "Waiting...", buttonVisible: false})
+    io.startButtonPress();
   }
 }
 

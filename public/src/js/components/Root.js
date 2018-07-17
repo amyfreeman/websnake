@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Modal from "./Modal.js";
-import {io} from "../IO.js";
 
 class Root extends Component {
   constructor() {
@@ -16,15 +15,11 @@ class Root extends Component {
       <div id="root">
         {
           this.state.modalVisible
-          ? <Modal startGame={this.startGame}/>
+          ? <Modal />
           : null
         }
       </div>
     );
-  }
-  startGame() {
-    this.setState(() => ({modalVisible: false}));
-    io.startButtonPress();
   }
 }
 export default Root;
