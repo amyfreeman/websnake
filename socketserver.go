@@ -15,16 +15,18 @@ type SocketServer struct {
 }
 
 func (ss *SocketServer) Listen() {
+    fmt.Println("Starting server at " + ss.port)
+
 	http.Handle("/", http.FileServer(http.Dir("public/dist")))
 	server := glue.NewServer(glue.Options{
 		HTTPListenAddress: ss.port,
 	})
     defer server.Release()
     server.OnNewSocket(ss.OnNewSocket)
-	err := server.Run()
+    err := server.Run()
 	if err != nil{
 		fmt.Println(err)
-	}
+    }
 }
 
 func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
@@ -32,18 +34,15 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
         p := ss.players[s.ID()]
 
         switch data{
-        case "stranger":
-            fmt.Println("stranger")
+        case "start":
+            fmt.Println(s.ID() + " is ready to start")
             if (ss.nextStranger == nil){
                 ss.nextStranger = p
-                s.Write("confirmed. waiting for stranger")
             } else{
                 var p2 *Player = ss.nextStranger
                 ss.nextStranger = nil
                 ss.makeGame(p2, p)
             }
-        case "friend":
-            fmt.Println("friend")
         case "left":
             ss.games[p].keyPress(p, 2)
         case "right":

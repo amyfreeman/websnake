@@ -1,40 +1,96 @@
-class IO{
-    constructor(socketConnection){
-        this.socketConnection = socketConnection;
+import {glue} from './glue.js';
 
-        window.addEventListener('keydown', function(event) {
+class IO{
+    constructor(){
+        this._socket = glue();
+
+        this._socket.onMessage((data)=>{
+            // use channels
+            this.onMessage(data);
+        });
+    
+        this._socket.on("connected", function() {
+            console.log("socket connected");
+        });
+    
+        this._socket.on("connecting", function() {
+            console.log("socket connecting");
+        });
+    
+        this._socket.on("disconnected", function() {
+            console.log("socket disconnected");
+        });
+    
+        this._socket.on("reconnecting", function() {
+            console.log("socket reconnecting");
+        });
+    
+        this._socket.on("error", function(e, msg) {
+            console.log("socket error: " + msg);
+        });
+    
+        this._socket.on("connect_timeout", function() {
+            console.log("socket connect_timeout");
+        });
+    
+        this._socket.on("timeout", function() {
+            console.log("socket timeout");
+        });
+    
+        this._socket.on("discard_send_buffer", function() {
+            console.log("socket discard_send_buffer");
+        });
+
+        window.addEventListener('keydown', (event) => {
             switch (event.keyCode) {
                 case 37:
-                    leftPress();
+                    this.leftPress();
                     break;
                 case 38:
-                    upPress();
+                    this.upPress();
                     break;
                 case 39:
-                    rightPress();
+                    this.rightPress();
                     break;
                 case 40:
-                    downPress();
+                    this.downPress();
             }
-        }, false);
+        });
     }
 
     leftPress(){
-        Console.log("left press registered");
-        this.socketConnections.send("left");
+        console.log("left key pressed");
+        this._socket.send("left");
     }
 
     rightPress(){
-        this.socketConnections.send("right");
+        console.log("right key pressed");
+        this._socket.send("right");
     }
 
     upPress(){
-        this.socketConnections.send("up");
+        console.log("up key pressed");
+        this._socket.send("up");
     }
 
     downPress(){
-        this.socketConnections.send("down");
+        console.log("down key pressed");
+        this._socket.send("down");
+    }
+
+    startButtonPress(){
+        console.log("start button pressed");
+        this._socket.send("start");
+    }
+
+    gameStarting(){
+        console.log("the game is starting");
+    }
+    
+    onMessage(data){
+        console.log("in onMessage");
     }
 }
-  
-export {IO};
+
+var io = new IO();
+export {io};

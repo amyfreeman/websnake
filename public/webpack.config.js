@@ -7,7 +7,8 @@ module.exports = {
     filename: "js/[name].js"
   },
   devServer: {
-    contentBase: "./dist"
+    contentBase: "./dist",
+    port: 8045
   },
   module: {
     rules: [

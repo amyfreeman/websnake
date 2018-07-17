@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,9 +261,9 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(15);
-} else {
   module.exports = __webpack_require__(16);
+} else {
+  module.exports = __webpack_require__(17);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -577,7 +577,7 @@ module.exports = warning;
 var printWarning = function() {};
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactPropTypesSecret = __webpack_require__(17);
+  var ReactPropTypesSecret = __webpack_require__(18);
   var loggedTypeFailures = {};
 
   printWarning = function(text) {
@@ -827,7 +827,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(20);
+var isTextNode = __webpack_require__(21);
 
 /*eslint-disable no-bitwise */
 
@@ -858,26 +858,154 @@ module.exports = containsNode;
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(13);
+"use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.io = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _glue = __webpack_require__(31);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var IO = function () {
+    function IO() {
+        var _this = this;
+
+        _classCallCheck(this, IO);
+
+        this._socket = (0, _glue.glue)();
+
+        this._socket.onMessage(function (data) {
+            // use channels
+            _this.onMessage(data);
+        });
+
+        this._socket.on("connected", function () {
+            console.log("socket connected");
+        });
+
+        this._socket.on("connecting", function () {
+            console.log("socket connecting");
+        });
+
+        this._socket.on("disconnected", function () {
+            console.log("socket disconnected");
+        });
+
+        this._socket.on("reconnecting", function () {
+            console.log("socket reconnecting");
+        });
+
+        this._socket.on("error", function (e, msg) {
+            console.log("socket error: " + msg);
+        });
+
+        this._socket.on("connect_timeout", function () {
+            console.log("socket connect_timeout");
+        });
+
+        this._socket.on("timeout", function () {
+            console.log("socket timeout");
+        });
+
+        this._socket.on("discard_send_buffer", function () {
+            console.log("socket discard_send_buffer");
+        });
+
+        window.addEventListener('keydown', function (event) {
+            switch (event.keyCode) {
+                case 37:
+                    _this.leftPress();
+                    break;
+                case 38:
+                    _this.upPress();
+                    break;
+                case 39:
+                    _this.rightPress();
+                    break;
+                case 40:
+                    _this.downPress();
+            }
+        });
+    }
+
+    _createClass(IO, [{
+        key: "leftPress",
+        value: function leftPress() {
+            console.log("left key pressed");
+            this._socket.send("left");
+        }
+    }, {
+        key: "rightPress",
+        value: function rightPress() {
+            console.log("right key pressed");
+            this._socket.send("right");
+        }
+    }, {
+        key: "upPress",
+        value: function upPress() {
+            console.log("up key pressed");
+            this._socket.send("up");
+        }
+    }, {
+        key: "downPress",
+        value: function downPress() {
+            console.log("down key pressed");
+            this._socket.send("down");
+        }
+    }, {
+        key: "startButtonPress",
+        value: function startButtonPress() {
+            console.log("start button pressed");
+            this._socket.send("start");
+        }
+    }, {
+        key: "gameStarting",
+        value: function gameStarting() {
+            console.log("the game is starting");
+        }
+    }, {
+        key: "onMessage",
+        value: function onMessage(data) {
+            console.log("in onMessage");
+        }
+    }]);
+
+    return IO;
+}();
+
+var io = new IO();
+exports.io = io;
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(14);
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
-var _Root = __webpack_require__(14);
+var _Root = __webpack_require__(15);
 
 var _Root2 = _interopRequireDefault(_Root);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-__webpack_require__(31);
+__webpack_require__(32);
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -893,15 +1021,15 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(18);
+var _reactDom = __webpack_require__(19);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Modal = __webpack_require__(27);
+var _Modal = __webpack_require__(28);
 
 var _Modal2 = _interopRequireDefault(_Modal);
 
-var _controller = __webpack_require__(30);
+var _IO = __webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -938,12 +1066,10 @@ var Root = function (_Component) {
   }, {
     key: "startGame",
     value: function startGame() {
-      this.setState(function (prevState) {
+      this.setState(function () {
         return { modalVisible: false };
       });
-      console.log(1);
-      (0, _controller.startGame3)();
-      console.log(2);
+      _IO.io.startButtonPress();
     }
   }]);
 
@@ -957,7 +1083,7 @@ var wrapper = document.getElementById("react-root");
 wrapper ? _reactDom2.default.render(_react2.default.createElement(Root, null), wrapper) : false;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -986,7 +1112,7 @@ assign:k}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default?Z.default:Z;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2480,7 +2606,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2499,7 +2625,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2537,15 +2663,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(19);
+  module.exports = __webpack_require__(20);
 } else {
-  module.exports = __webpack_require__(22);
+  module.exports = __webpack_require__(23);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2792,7 +2918,7 @@ var Ai={default:vi},Bi=Ai&&vi||Ai;module.exports=Bi.default?Bi.default:Bi;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2807,7 +2933,7 @@ var Ai={default:vi},Bi=Ai&&vi||Ai;module.exports=Bi.default?Bi.default:Bi;
  * @typechecks
  */
 
-var isNode = __webpack_require__(21);
+var isNode = __webpack_require__(22);
 
 /**
  * @param {*} object The object to check.
@@ -2820,7 +2946,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2848,7 +2974,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2880,8 +3006,8 @@ var getActiveElement = __webpack_require__(9);
 var shallowEqual = __webpack_require__(10);
 var containsNode = __webpack_require__(11);
 var emptyObject = __webpack_require__(5);
-var hyphenateStyleName = __webpack_require__(23);
-var camelizeStyleName = __webpack_require__(25);
+var hyphenateStyleName = __webpack_require__(24);
+var camelizeStyleName = __webpack_require__(26);
 
 // Relying on the `invariant()` implementation lets us
 // have preserve the format and params in the www builds.
@@ -20286,7 +20412,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20301,7 +20427,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(24);
+var hyphenate = __webpack_require__(25);
 
 var msPattern = /^ms-/;
 
@@ -20328,7 +20454,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20364,7 +20490,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20379,7 +20505,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(26);
+var camelize = __webpack_require__(27);
 
 var msPattern = /^-ms-/;
 
@@ -20407,7 +20533,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20442,7 +20568,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20458,7 +20584,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ModalContent = __webpack_require__(28);
+var _ModalContent = __webpack_require__(29);
 
 var _ModalContent2 = _interopRequireDefault(_ModalContent);
 
@@ -20508,7 +20634,7 @@ var Modal = function (_Component) {
 exports.default = Modal;
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20524,7 +20650,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Button = __webpack_require__(29);
+var _Button = __webpack_require__(30);
 
 var _Button2 = _interopRequireDefault(_Button);
 
@@ -20577,7 +20703,7 @@ var ModalContent = function (_Component) {
 exports.default = ModalContent;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20604,178 +20730,7 @@ function Button(props) {
 exports.default = Button;
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var startGame3 = exports.startGame3 = function startGame3() {
-    console.log("start game");
-};
-
-/***/ }),
 /* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _GameBoard = __webpack_require__(32);
-
-var _SocketConnection = __webpack_require__(33);
-
-var _IO = __webpack_require__(35);
-
-var socketConnection = new _SocketConnection.SocketConnection();
-var io = new _IO.IO(socketConnection);
-var gameBoard = new _GameBoard.GameBoard();
-gameBoard.renderBoard();
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var NUM_ROWS = 10;
-var NUM_COLS = 10;
-var BOARD_SIZE = 0.8 * Math.min(window.innerWidth, window.innerHeight);
-var CELL_WIDTH = BOARD_SIZE / NUM_COLS;
-var CELL_HEIGHT = BOARD_SIZE / NUM_ROWS;
-
-var ctx;
-
-var GameBoard = function () {
-    function GameBoard() {
-        _classCallCheck(this, GameBoard);
-
-        var canvas = document.querySelector("#maincanvas");
-        ctx = canvas.getContext("2d");
-        ctx.canvas.width = BOARD_SIZE;
-        ctx.canvas.height = BOARD_SIZE;
-    }
-
-    _createClass(GameBoard, [{
-        key: "renderBoard",
-        value: function renderBoard() {
-            ctx.fillStyle = "#000000";
-            ctx.fillRect(0, 0, BOARD_SIZE, BOARD_SIZE);
-
-            ctx.strokeStyle = "#00FF00";
-            ctx.lineWidth = 10;
-            ctx.beginPath();
-            for (var i = 0; i <= NUM_ROWS; i++) {
-                ctx.moveTo(0, i * CELL_HEIGHT);
-                ctx.lineTo(BOARD_SIZE, i * CELL_HEIGHT);
-            }
-            for (var i = 0; i <= NUM_COLS; i++) {
-                ctx.moveTo(i * CELL_WIDTH, 0);
-                ctx.lineTo(i * CELL_WIDTH, BOARD_SIZE);
-            }
-            ctx.stroke();
-        }
-    }]);
-
-    return GameBoard;
-}();
-
-exports.GameBoard = GameBoard;
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.SocketConnection = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _glue = __webpack_require__(34);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var SocketConnection = function () {
-    function SocketConnection() {
-        _classCallCheck(this, SocketConnection);
-
-        this.socket = (0, _glue.glue)();
-
-        this.socket.onMessage(function (data) {
-            // use channels
-            if (data == "game beginning") {
-                updateStatus(data);
-            } else if (data == "confirmed. waiting for stranger") {
-                updateStatus(data);
-            } else {
-                drawFromMsg(data);
-            }
-        });
-
-        this.socket.on("connected", function () {
-            console.log("connected");
-        });
-
-        this.socket.on("connecting", function () {
-            console.log("connecting");
-        });
-
-        this.socket.on("disconnected", function () {
-            console.log("disconnected");
-        });
-
-        this.socket.on("reconnecting", function () {
-            console.log("reconnecting");
-        });
-
-        this.socket.on("error", function (e, msg) {
-            console.log("error: " + msg);
-        });
-
-        this.socket.on("connect_timeout", function () {
-            console.log("connect_timeout");
-        });
-
-        this.socket.on("timeout", function () {
-            console.log("timeout");
-        });
-
-        this.socket.on("discard_send_buffer", function () {
-            console.log("some data could not be sent and was discarded.");
-        });
-    }
-
-    _createClass(SocketConnection, [{
-        key: "send",
-        value: function send(message) {
-            this.socket.send(message);
-        }
-    }]);
-
-    return SocketConnection;
-}();
-
-exports.SocketConnection = SocketConnection;
-
-/***/ }),
-/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21062,7 +21017,21 @@ var glue = exports.glue = function glue(e, n) {
 };
 
 /***/ }),
-/* 35 */
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _GameBoard = __webpack_require__(33);
+
+var _IO = __webpack_require__(12);
+
+var gameBoard = new _GameBoard.GameBoard();
+gameBoard.renderBoard();
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21076,56 +21045,49 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var IO = function () {
-    function IO(socketConnection) {
-        _classCallCheck(this, IO);
+var NUM_ROWS = 10;
+var NUM_COLS = 10;
+var BOARD_SIZE = 0.8 * Math.min(window.innerWidth, window.innerHeight);
+var CELL_WIDTH = BOARD_SIZE / NUM_COLS;
+var CELL_HEIGHT = BOARD_SIZE / NUM_ROWS;
 
-        this.socketConnection = socketConnection;
+var ctx;
 
-        window.addEventListener('keydown', function (event) {
-            switch (event.keyCode) {
-                case 37:
-                    leftPress();
-                    break;
-                case 38:
-                    upPress();
-                    break;
-                case 39:
-                    rightPress();
-                    break;
-                case 40:
-                    downPress();
-            }
-        }, false);
+var GameBoard = function () {
+    function GameBoard() {
+        _classCallCheck(this, GameBoard);
+
+        var canvas = document.querySelector("#maincanvas");
+        ctx = canvas.getContext("2d");
+        ctx.canvas.width = BOARD_SIZE;
+        ctx.canvas.height = BOARD_SIZE;
     }
 
-    _createClass(IO, [{
-        key: "leftPress",
-        value: function leftPress() {
-            Console.log("left press registered");
-            this.socketConnections.send("left");
-        }
-    }, {
-        key: "rightPress",
-        value: function rightPress() {
-            this.socketConnections.send("right");
-        }
-    }, {
-        key: "upPress",
-        value: function upPress() {
-            this.socketConnections.send("up");
-        }
-    }, {
-        key: "downPress",
-        value: function downPress() {
-            this.socketConnections.send("down");
+    _createClass(GameBoard, [{
+        key: "renderBoard",
+        value: function renderBoard() {
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, BOARD_SIZE, BOARD_SIZE);
+
+            ctx.strokeStyle = "#00FF00";
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            for (var i = 0; i <= NUM_ROWS; i++) {
+                ctx.moveTo(0, i * CELL_HEIGHT);
+                ctx.lineTo(BOARD_SIZE, i * CELL_HEIGHT);
+            }
+            for (var i = 0; i <= NUM_COLS; i++) {
+                ctx.moveTo(i * CELL_WIDTH, 0);
+                ctx.lineTo(i * CELL_WIDTH, BOARD_SIZE);
+            }
+            ctx.stroke();
         }
     }]);
 
-    return IO;
+    return GameBoard;
 }();
 
-exports.IO = IO;
+exports.GameBoard = GameBoard;
 
 /***/ })
 /******/ ]);
