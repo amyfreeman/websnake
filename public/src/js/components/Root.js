@@ -1,23 +1,18 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import Modal from "./Modal.js";
+
+import Modal from "./Modal.js"
+import CanvasContainer from "./CanvasContainer.js";
 
 class Root extends Component {
   constructor() {
     super();
-    this.state = {
-      modalVisible: true
-    }
-    this.startGame = this.startGame.bind(this)
   }
   render() {
     return (
       <div id="root">
-        {
-          this.state.modalVisible
-          ? <Modal />
-          : null
-        }
+      <CanvasContainer />
+      <Modal />
       </div>
     );
   }

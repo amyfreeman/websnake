@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Button from "./Button.js"
-import {io} from "../IO.js";
 
 class ModalContent extends Component {
   constructor() {
