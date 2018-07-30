@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "./Button.jsx";
-import {io} from "./IO.js";
 
 class ModalContent extends React.Component {
   constructor() {
@@ -36,7 +35,6 @@ class ModalContent extends React.Component {
       message: "Waiting...",
       buttonVisible: false
     })
-    io.startButtonPress();
   }
 }
 

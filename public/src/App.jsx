@@ -1,7 +1,7 @@
 import React from "react";
-import Modal from "./Modal.jsx";
-import CanvasContainer from "./CanvasContainer.jsx";
-import {glue} from './glue.exec';
+import Modal from "./components/Modal.jsx";
+import CanvasContainer from "./components/CanvasContainer.jsx";
+import {glue} from './glue.js';
 
 var handlers = {};
 
@@ -12,7 +12,9 @@ class App extends React.Component {
       modalPresent: true
     }
     this.initiateSockets();
+    console.log("A");
     this.registerHandler = this.registerHandler.bind(this)
+    console.log("B");
   }
   render() {
     return (
@@ -23,13 +25,11 @@ class App extends React.Component {
     );
   }
   initiateSockets(){
-    console.log(glue);
     this._socket = glue();
-    console.log(2);
       this._socket.onMessage((data)=>{
-          if (handlers[data]){
+        if (handlers[data]){
             handlers[data]();
-          }
+        }
       });
   
       this._socket.on("connected", function() {
