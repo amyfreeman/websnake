@@ -21,7 +21,7 @@ class Modal extends React.Component {
     };
     return (
       <div id="modal" style={style}>
-        <ModalContent/>
+        <ModalContent />
       </div>
     );
   }
