@@ -9,10 +9,10 @@ const CELL_HEIGHT = BOARD_SIZE / NUM_ROWS;
 var ctx;
 
 class CanvasContainer extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
 
-    this.props.registerHandler("startGame", this.startGame);
+    props.registerHandler("startGame", this.startGame);
   }
   render() {
     var style = {
