@@ -41,13 +41,15 @@ func (g *Game) keyPress(p *Player, dir int){
 }
 
 func createGame(gameId string, p1 *Player, p2 *Player) *Game {
-	g := Game{}
-	g.gameId = gameId
-	g.players = make([]*Player, 2, 4)
+	g := Game{
+		gameId: gameId,
+		players: make([]*Player, 2, 4),
+		gameover: false,
+		snake: snake.CreateSnake(),
+	}
+	// todo: at the two lines below to initializer
 	g.players[0] = p1
 	g.players[1] = p2
-	g.gameover = false
-	g.snake = snake.CreateSnake()
 	g.notifyAll("game beginning")
 	go gameListener(&g)
 	return &g

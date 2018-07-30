@@ -109,10 +109,13 @@ func (sn *Snake) PrintState(){
 }
 
 func CreateSnake() *Snake{
-	sn := Snake{}
-	sn.width = GAME_WIDTH
-	sn.height = GAME_HEIGHT
-	sn.bodies = make([]*Body, NUM_SNAKES, NUM_SNAKES)
+	sn := Snake{
+		width: GAME_WIDTH,
+		height: GAME_HEIGHT,
+		bodies: make([]*Body, NUM_SNAKES, NUM_SNAKES),
+		foods: make([]*Food, 0, NUM_FOODS),
+		isDead: make([]bool, NUM_SNAKES, NUM_SNAKES),
+	}
 	if NUM_SNAKES == 2{
 		sn.bodies[0] = createBody(0, 0, 0, GAME_WIDTH * GAME_HEIGHT)
 		sn.bodies[1] = createBody(GAME_WIDTH - 1, GAME_HEIGHT - 1, 2, GAME_WIDTH * GAME_HEIGHT)
@@ -122,10 +125,8 @@ func CreateSnake() *Snake{
 		sn.bodies[2] = createBody(GAME_WIDTH - 1, GAME_HEIGHT - 1, 2, GAME_WIDTH * GAME_HEIGHT)
 		sn.bodies[3] = createBody(GAME_WIDTH - 1, 0, 1, GAME_WIDTH * GAME_HEIGHT)
 	}
-	sn.foods = make([]*Food, 0, NUM_FOODS)
 	for i:= 0; i < NUM_FOODS; i++{
 		sn.foods = append(sn.foods, createFood(sn.getUnoccupiedCell()))
 	}
-	sn.isDead = make([]bool, NUM_SNAKES, NUM_SNAKES)
 	return &sn
 }

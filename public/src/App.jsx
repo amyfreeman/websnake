@@ -12,9 +12,7 @@ class App extends React.Component {
       modalPresent: true
     }
     this.initiateSockets();
-    console.log("A");
     this.registerHandler = this.registerHandler.bind(this)
-    console.log("B");
   }
   render() {
     return (

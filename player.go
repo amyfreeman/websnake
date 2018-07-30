@@ -12,7 +12,8 @@ type Player struct {
 }
 
 func createPlayer(socket *glue.Socket) *Player {
-	p := Player{}
-	p.socket = socket;
+	p := Player{
+		socket: socket,
+	}
 	return &p
 }

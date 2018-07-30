@@ -78,10 +78,11 @@ func (ss *SocketServer) makeGame(p1 *Player, p2 *Player) {
 }
 
 func createSocketServer(port string) {
-	ss := SocketServer{}
-	ss.port = port
-    ss.players = make(map[string] *Player)
-    ss.games = make(map[*Player] *Game)
-    ss.nextStranger = nil
+	ss := SocketServer{
+        port: port,
+        players: make(map[string] *Player),
+        games: make(map[*Player] *Game),
+        nextStranger: nil,
+    }
 	ss.Listen()
 }

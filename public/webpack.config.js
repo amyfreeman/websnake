@@ -20,10 +20,6 @@ var config = {
 				query: {
 					presets: ['es2015', 'react']
 				}
-			},
-			{
-				test: /\.exec\.js$/,
-				use: [ 'script-loader' ]
 			}
 		]
 	}

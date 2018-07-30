@@ -72,12 +72,13 @@ func (b *Body) contains(cell Cell) bool{
 }
 
 func createBody(x int, y int, dir int, maxlength int) *Body{
-	b := Body{}
-	b.cells = make([]Cell, 1, maxlength)
+	b := Body{
+		cells: make([]Cell, 1, maxlength),
+		dir: dir,
+		nextDir: dir,
+		addCell: false,
+	}
 	b.cells[0] = Cell{x, y}
 	b.head = b.cells[0]
-	b.dir = dir
-	b.nextDir = dir
-	b.addCell = false
 	return &b
 }
