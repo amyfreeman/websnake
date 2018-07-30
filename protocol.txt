@@ -1,0 +1,15 @@
+Client -> Server:
+    "STATUS" channel
+        "READY"             indicates that the client is ready to play a game
+    "GAMEPLAY" channel
+        "UP"                indicates up key press
+        "DOWN"              indicates down key press
+        "LEFT"              indicates left key press
+        "RIGHT"             indicates right key press
+Server -
+    "STATUS" channel
+        "OPPONENT_FOUND"    indicates that an opponent has been found, and that the game is about to begin
+        "BEGIN"             game has begun
+        "GAMEOVER"          the game is over
+    "GAMESTATE" channel
+        <board state>       the current state of the board

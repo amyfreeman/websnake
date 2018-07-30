@@ -7,6 +7,7 @@ import (
 )
 
 type Player struct {
+	// compose with socket instead?
 	socket *glue.Socket
 	name string
 }
