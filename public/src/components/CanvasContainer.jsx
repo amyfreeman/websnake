@@ -33,25 +33,30 @@ class CanvasContainer extends React.Component {
   }
   drawBoard(){
     const canvas = this.refs.canvas;
-    ctx = canvas.getContext("2d");
-    ctx.canvas.width  = BOARD_SIZE;
-    ctx.canvas.height = BOARD_SIZE;
+    this._ctx = canvas.getContext("2d");
+    this._ctx.canvas.width  = BOARD_SIZE;
+    this._ctx.canvas.height = BOARD_SIZE;
 
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, BOARD_SIZE, BOARD_SIZE);
+    this._ctx.fillStyle = "#000000";
+    this._ctx.fillRect(0, 0, BOARD_SIZE, BOARD_SIZE);
     
-    ctx.strokeStyle = "#00FF00";
-    ctx.lineWidth = 10;
-    ctx.beginPath();
+    this._ctx.strokeStyle = "#00FF00";
+    this._ctx.lineWidth = 10;
+    this._ctx.beginPath();
     for (var i = 0; i <= NUM_ROWS; i++){
-        ctx.moveTo(0, i * CELL_HEIGHT);
-        ctx.lineTo(BOARD_SIZE, i * CELL_HEIGHT);
+        this._ctx.moveTo(0, i * CELL_HEIGHT);
+        this._ctx.lineTo(BOARD_SIZE, i * CELL_HEIGHT);
     }
     for (var i = 0; i <= NUM_COLS; i++){
-        ctx.moveTo(i * CELL_WIDTH, 0);
-        ctx.lineTo(i * CELL_WIDTH, BOARD_SIZE); 
+        this._ctx.moveTo(i * CELL_WIDTH, 0);
+        this._ctx.lineTo(i * CELL_WIDTH, BOARD_SIZE); 
     }
-    ctx.stroke();
+    this._ctx.stroke();
+  }
+
+  drawCell(x, y, color){
+    this._ctx.fillStyle = color;
+    this._ctx.fillRect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, color);
   }
 
   startGame(){
