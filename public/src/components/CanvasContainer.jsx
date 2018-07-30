@@ -12,7 +12,7 @@ class CanvasContainer extends React.Component {
   constructor(props) {
     super();
 
-    props.registerHandler("startGame", this.startGame);
+    props.registerHandler("BEGIN", this.startGame);
   }
   render() {
     var style = {

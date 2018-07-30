@@ -2,7 +2,7 @@ const path = require('path');
 
 var config = {
 	mode: "none",
-	entry: path.join(__dirname, "src", "main.js"),
+	entry: path.join(__dirname, "src", "App.jsx"),
 	output: {
 		path: path.join(__dirname, "dist"),
 		filename: 'index.js',

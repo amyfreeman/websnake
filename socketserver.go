@@ -65,6 +65,7 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
     p := createPlayer(s)
     ss.players[s.ID()] = p
 
+    //figure out why this line doesn't work
     fmt.Println("socket open with remote address:", s.RemoteAddr())
 
     //write on GAMESTATE channel

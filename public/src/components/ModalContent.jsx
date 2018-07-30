@@ -35,6 +35,7 @@ class ModalContent extends React.Component {
       message: "Waiting...",
       buttonVisible: false
     })
+    this.props.on_sendREADY();
   }
 }
 

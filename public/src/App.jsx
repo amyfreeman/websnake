@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import Modal from "./components/Modal.jsx";
 import CanvasContainer from "./components/CanvasContainer.jsx";
 import {glue} from './glue.js';
@@ -12,13 +13,14 @@ class App extends React.Component {
       modalPresent: true
     }
     this.initiateSockets();
-    this.registerHandler = this.registerHandler.bind(this)
+    this.sendREADY = this.sendREADY.bind(this);
+    this.registerHandler = this.registerHandler.bind(this);
   }
   render() {
     return (
       <div id="root">
-        <CanvasContainer registerHandler = {this.registerHandler}/>
-        {this.state.modalPresent? <Modal /> : null}
+        <CanvasContainer registerHandler={this.registerHandler}/>
+        {this.state.modalPresent? <Modal on_sendREADY={this.sendREADY}/> : null}
       </div>
     );
   }
@@ -27,6 +29,9 @@ class App extends React.Component {
       this._socket.onMessage((data)=>{
         if (handlers[data]){
             handlers[data]();
+        }
+        if (data == "BEGIN"){
+            this.setState({modalPresent: false});
         }
       });
   
@@ -65,5 +70,9 @@ class App extends React.Component {
   registerHandler(message, handler){
     handlers[message] = handler;
   }
+  sendREADY(){
+      this._socket.send("READY");
+  }
 }
-export default App;
+
+ReactDOM.render(<App/>, document.getElementById('app'));
