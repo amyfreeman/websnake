@@ -71,7 +71,8 @@ class CanvasContainer extends React.Component {
 
   drawCell(x, y, color){
     ctx.fillStyle = color;
-    ctx.fillRect(x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, color);
+    // Remember to account for upper-left origin
+    ctx.fillRect(x * CELL_WIDTH, (NUM_ROWS - y - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, color);
   }
 
   onGAMESTATE(data){
