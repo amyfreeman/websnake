@@ -15,13 +15,13 @@ type Game struct {
 
 func gameListener(g *Game) {
 	fmt.Println("Game listening")
-	g.notifyAll("GAMEPLAY", g.snake.GetStateString())
+	g.notifyAll("GAMESTATE", g.snake.GetStateString())
 	t := time.Now()
 	for !g.gameover{
 		if time.Since(t) > 1000000000 {
 			t = time.Now()
 			g.snake.Step()
-			g.notifyAll("GAMEPLAY", g.snake.GetStateString())
+			g.notifyAll("GAMESTATE", g.snake.GetStateString())
 		}
 	}
 	g.notifyAll("STATUS", "GAMEOVER")
@@ -29,8 +29,7 @@ func gameListener(g *Game) {
 
 func (g *Game) notifyAll(channel string, msg string){
 	for _, player := range (*g).players {
-		// write to channel
-		player.socket.Write(msg)
+		player.socket.Channel(channel).Write(msg)
 	}
 }
 

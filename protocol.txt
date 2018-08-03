@@ -6,7 +6,7 @@ Client -> Server:
         "DOWN"              indicates down key press
         "LEFT"              indicates left key press
         "RIGHT"             indicates right key press
-Server -
+Server -> Client
     "STATUS" channel
         "OPPONENT_FOUND"    indicates that an opponent has been found, and that the game is about to begin
         "BEGIN"             game has begun

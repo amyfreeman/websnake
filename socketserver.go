@@ -4,7 +4,8 @@ import (
     "net/http"
 	"github.com/desertbit/glue"
     "github.com/nu7hatch/gouuid"
-	"fmt"
+    "fmt"
+    "reflect"
 )
 
 type SocketServer struct {
@@ -15,8 +16,7 @@ type SocketServer struct {
 }
 
 func (ss *SocketServer) Listen() {
-    //make this a link
-    fmt.Println("SocketServer listening at localhost" + ss.port)
+    fmt.Println("SocketServer listening at http://localhost" + ss.port)
 
 	http.Handle("/", http.FileServer(http.Dir("public/dist")))
 	server := glue.NewServer(glue.Options{
@@ -33,9 +33,11 @@ func (ss *SocketServer) Listen() {
 
 func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
     s.OnRead(func(data string){
-        p := ss.players[s.ID()]
+        fmt.Println("Unknown socket command detected: " + data)
+    })
 
-        // convert code below to use channels. extract switch statement to game class, simply passing the message along
+    s.Channel("STATUS").OnRead(func(data string){
+        p := ss.players[s.ID()]
 
         switch data{
         case "READY":
@@ -47,6 +49,15 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
                 ss.nextStranger = nil
                 ss.makeGame(p2, p)
             }
+        default:
+            fmt.Println("Unknown STATUS command detected: " + data)
+        }
+    })
+
+    s.Channel("GAMEPLAY").OnRead(func(data string){
+        p := ss.players[s.ID()]
+
+        switch data{
         case "LEFT":
             ss.games[p].keyPress(p, 2)
         case "RIGHT":
@@ -55,6 +66,8 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
             ss.games[p].keyPress(p, 1)
         case "DOWN":
             ss.games[p].keyPress(p, 3)
+        default:
+            fmt.Println("Unknown GAMEPLAY command detected: " + data)
         }
     })
     
@@ -65,11 +78,10 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
     p := createPlayer(s)
     ss.players[s.ID()] = p
 
-    //figure out why this line doesn't work
+    // run on a server other than localhost, find out if this works
     fmt.Println("socket open with remote address:", s.RemoteAddr())
 
-    //write on GAMESTATE channel
-    s.Write("0................F.................................................................................1")
+    s.Channel("GAMESTATE").Write("0................F.................................................................................1")
 }
 
 func (ss *SocketServer) makeGame(p1 *Player, p2 *Player) {
