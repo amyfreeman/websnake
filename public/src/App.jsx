@@ -11,23 +11,23 @@ class App extends React.Component {
             modalPresent: true
         }
         this.initiateSockets();
-        this.sendREADY = this.sendREADY.bind(this);
-        this.onSTATUS = this.onSTATUS.bind(this);
+        this.send = this.send.bind(this);
         this.registerHandler = this.registerHandler.bind(this);
+        this.onSTATUS = this.onSTATUS.bind(this);
         this.registerHandler("STATUS", this.onSTATUS);
     }
     render() {
         return (
             <div id="root">
-            <CanvasContainer registerHandler={this.registerHandler}/>
-            {this.state.modalPresent? <Modal sendREADY={this.sendREADY}/> : null}
+            <CanvasContainer registerHandler={this.registerHandler} send={this.send}/>
+            {this.state.modalPresent? <Modal send={this.send}/> : null}
             </div>
         );
     }
     initiateSockets(){
     this._socket = glue();
         this._socket.onMessage((data)=>{
-            console.log("hey so...we've received a socket message without a channel...dat bad");
+            console.log("hey so...we've received a socket message without a channel...dat bad: " + data);
         });
 
         this._socket.on("connected", function() {
@@ -67,22 +67,20 @@ class App extends React.Component {
             handler(data);
         });
     }
-    sendREADY(){
-        this._socket.channel("STATUS").send("READY");
+    send(channel, message){
+        this._socket.channel(channel).send(message);
     }
     onSTATUS(data){
+        console.log(data);
         switch(data) {
             case "OPPONENT_FOUND":
-                console.log("OPPONENT_FOUND");
                 break;
             case "BEGIN":
-                console.log("BEGIN");
                 this.setState({
                     modalPresent: false
                 });
                 break;
             case "GAMEOVER":
-                console.log("GAMEOVER");
                 break;
             default:
                 console.log("Unkown 'STATUS' command detected: " + data);

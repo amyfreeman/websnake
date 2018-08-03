@@ -15,7 +15,7 @@ type Snake struct {
 	height int
 	bodies []*Body
 	foods []*Food
-	gameover bool
+	Gameover bool
 	isDead []bool
 }
 
@@ -38,6 +38,8 @@ func (sn *Snake) Step(){
 					sn.foods[j] = createFood(sn.getUnoccupiedCell())
 				}
 			}
+		} else{
+			sn.Gameover = true
 		}
 	}
 }

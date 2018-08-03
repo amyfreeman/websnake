@@ -10,7 +10,7 @@ var ctx;
 
 class CanvasContainer extends React.Component {
   constructor(props) {
-    super();
+    super(props);
 
     this.drawCell = this.drawCell.bind(this);
     this.onGAMESTATE = this.onGAMESTATE.bind(this);
@@ -35,7 +35,24 @@ class CanvasContainer extends React.Component {
     ctx = canvas.getContext("2d");
     ctx.canvas.width  = BOARD_SIZE;
     ctx.canvas.height = BOARD_SIZE;
-      this.drawBoard();
+    this.drawBoard();
+
+    window.addEventListener('keydown', (event) => {
+        switch (event.keyCode) {
+            case 37: // Left
+                this.props.send("GAMEPLAY", "LEFT");
+                break;
+            case 38: // Up
+                this.props.send("GAMEPLAY", "UP");
+                break;
+            case 39: // Right
+                this.props.send("GAMEPLAY", "RIGHT");
+                break;
+            case 40: // Down
+                this.props.send("GAMEPLAY", "DOWN");
+                break;
+        }
+    }, false);
   }
   drawBoard(){
     ctx.strokeStyle = "#00FF00";

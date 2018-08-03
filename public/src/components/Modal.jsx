@@ -21,7 +21,7 @@ class Modal extends React.Component {
     };
     return (
       <div id="modal" style={style}>
-        <ModalContent sendREADY={this.props.sendREADY}/>
+        <ModalContent send={this.props.send}/>
       </div>
     );
   }

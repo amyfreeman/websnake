@@ -5,7 +5,7 @@ import (
 	"github.com/desertbit/glue"
     "github.com/nu7hatch/gouuid"
     "fmt"
-    "reflect"
+    //"reflect"
 )
 
 type SocketServer struct {
@@ -56,18 +56,20 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
 
     s.Channel("GAMEPLAY").OnRead(func(data string){
         p := ss.players[s.ID()]
-
-        switch data{
-        case "LEFT":
-            ss.games[p].keyPress(p, 2)
-        case "RIGHT":
-            ss.games[p].keyPress(p, 0)
-        case "UP":
-            ss.games[p].keyPress(p, 1)
-        case "DOWN":
-            ss.games[p].keyPress(p, 3)
-        default:
-            fmt.Println("Unknown GAMEPLAY command detected: " + data)
+        game := ss.games[p]
+        if game != nil{
+            switch data{
+            case "LEFT":
+                game.keyPress(p, 2)
+            case "RIGHT":
+                game.keyPress(p, 0)
+            case "UP":
+                game.keyPress(p, 1)
+            case "DOWN":
+                game.keyPress(p, 3)
+            default:
+                fmt.Println("Unknown GAMEPLAY command detected: " + data)
+            }
         }
     })
     

@@ -23,8 +23,10 @@ func gameListener(g *Game) {
 			g.snake.Step()
 			g.notifyAll("GAMESTATE", g.snake.GetStateString())
 		}
+		g.gameover = g.snake.Gameover
 	}
 	g.notifyAll("STATUS", "GAMEOVER")
+	fmt.Println("Game over")
 }
 
 func (g *Game) notifyAll(channel string, msg string){
