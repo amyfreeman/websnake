@@ -4,6 +4,8 @@ import Modal from "./components/Modal.jsx";
 import CanvasContainer from "./components/CanvasContainer.jsx";
 import {glue} from './glue.js';
 
+var handlers = {};
+
 class App extends React.Component {
     constructor() {
         super();
@@ -20,7 +22,7 @@ class App extends React.Component {
         return (
             <div id="root">
             <CanvasContainer registerHandler={this.registerHandler} send={this.send}/>
-            {this.state.modalPresent? <Modal send={this.send}/> : null}
+            {this.state.modalPresent? <Modal registerHandler={this.registerHandler} send={this.send}/> : null}
             </div>
         );
     }
@@ -63,8 +65,16 @@ class App extends React.Component {
         });
     }
     registerHandler(channel, handler){
+        if (channel in handlers){
+            handlers[channel].push(handler);
+        }
+        else{
+            handlers[channel] = [handler];
+        }
         this._socket.channel(channel).onMessage((data)=>{
-            handler(data);
+            for (var i = 0; i < handlers[channel].length; i++){
+                handlers[channel][i](data);
+            }
         });
     }
     send(channel, message){

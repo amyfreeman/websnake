@@ -101,6 +101,16 @@ func (sn *Snake) GetStateString() string{
 	return str
 }
 
+func (sn *Snake) GetInvertedStateString() string{
+	var str string = ""
+	for i := GAME_WIDTH - 1; i >= 0; i--{
+		for j := GAME_HEIGHT - 1; j >= 0; j--{
+			str += sn.getObjectAt(Cell{i, j});
+		}
+	}
+	return str
+}
+
 func (sn *Snake) PrintState(){
 	for j := GAME_HEIGHT - 1; j >= 0; j-- {
 		for i := 0; i < GAME_WIDTH; i++{

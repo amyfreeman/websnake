@@ -15,13 +15,15 @@ type Game struct {
 
 func gameListener(g *Game) {
 	fmt.Println("Game listening")
-	g.notifyAll("GAMESTATE", g.snake.GetStateString())
+	g.notifyOne(0, "GAMESTATE", g.snake.GetStateString())
+	g.notifyOne(1, "GAMESTATE", g.snake.GetInvertedStateString())
 	t := time.Now()
 	for !g.gameover{
 		if time.Since(t) > 1000000000 {
 			t = time.Now()
 			g.snake.Step()
-			g.notifyAll("GAMESTATE", g.snake.GetStateString())
+			g.notifyOne(0, "GAMESTATE", g.snake.GetStateString())
+			g.notifyOne(1, "GAMESTATE", g.snake.GetInvertedStateString())
 		}
 		g.gameover = g.snake.Gameover
 	}
@@ -35,10 +37,19 @@ func (g *Game) notifyAll(channel string, msg string){
 	}
 }
 
+func (g *Game) notifyOne(playerIndex int, channel string, msg string){
+	(*g).players[playerIndex].socket.Channel(channel).Write(msg)
+}
+
 func (g *Game) keyPress(p *Player, dir int){
 	for i := 0; i < len(g.players); i++{
 		if g.players[i] == p {
-			g.snake.Move(i, dir)
+			if i == 0{
+				g.snake.Move(i, dir)
+			} else{
+				g.snake.Move(i, (dir + 2) % 4)
+			}
+
 		}
 	}
 }
@@ -54,7 +65,7 @@ func createGame(gameId string, p1 *Player, p2 *Player) *Game {
 	g.players[0] = p1
 	g.players[1] = p2
 	g.notifyAll("STATUS", "OPPONENT_FOUND")
-	// sleep for three seconds
+	time.Sleep(3 * time.Second)
 	g.notifyAll("STATUS", "BEGIN")
 	go gameListener(&g)
 	return &g

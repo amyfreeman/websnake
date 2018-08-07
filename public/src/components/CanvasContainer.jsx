@@ -9,96 +9,96 @@ var canvas;
 var ctx;
 
 class CanvasContainer extends React.Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.drawCell = this.drawCell.bind(this);
-    this.onGAMESTATE = this.onGAMESTATE.bind(this);
-    props.registerHandler("GAMESTATE", this.onGAMESTATE);
-  }
-  render() {
-    var style = {
-        minHeight: "100vh",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-      };
-    return (
-        <div id="canvas-container" style={style}>
-            <canvas id="maincanvas" ref="canvas"></canvas>
-        </div>
-    );
-  }
-  componentDidMount() {
-    canvas = document.getElementById("maincanvas");
-    ctx = canvas.getContext("2d");
-    ctx.canvas.width  = BOARD_SIZE;
-    ctx.canvas.height = BOARD_SIZE;
-    this.drawBoard();
+        this.drawCell = this.drawCell.bind(this);
+        this.onGAMESTATE = this.onGAMESTATE.bind(this);
+        props.registerHandler("GAMESTATE", this.onGAMESTATE);
+    }
+    render() {
+        var style = {
+            minHeight: "100vh",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+            };
+        return (
+            <div id="canvas-container" style={style}>
+                <canvas id="maincanvas" ref="canvas"></canvas>
+            </div>
+        );
+    }
+    componentDidMount() {
+        canvas = document.getElementById("maincanvas");
+        ctx = canvas.getContext("2d");
+        ctx.canvas.width  = BOARD_SIZE;
+        ctx.canvas.height = BOARD_SIZE;
+        this.drawBoard();
 
-    window.addEventListener('keydown', (event) => {
-        switch (event.keyCode) {
-            case 37: // Left
-                this.props.send("GAMEPLAY", "LEFT");
-                break;
-            case 38: // Up
-                this.props.send("GAMEPLAY", "UP");
-                break;
-            case 39: // Right
-                this.props.send("GAMEPLAY", "RIGHT");
-                break;
-            case 40: // Down
-                this.props.send("GAMEPLAY", "DOWN");
-                break;
+        window.addEventListener('keydown', (event) => {
+            switch (event.keyCode) {
+                case 37: // Left
+                    this.props.send("GAMEPLAY", "LEFT");
+                    break;
+                case 38: // Up
+                    this.props.send("GAMEPLAY", "UP");
+                    break;
+                case 39: // Right
+                    this.props.send("GAMEPLAY", "RIGHT");
+                    break;
+                case 40: // Down
+                    this.props.send("GAMEPLAY", "DOWN");
+                    break;
+            }
+        }, false);
+    }
+    drawBoard(){
+        ctx.strokeStyle = "#00FF00";
+        ctx.lineWidth = 10;
+        ctx.beginPath();
+        for (var i = 0; i <= NUM_ROWS; i++){
+            ctx.moveTo(0, i * CELL_HEIGHT);
+            ctx.lineTo(BOARD_SIZE, i * CELL_HEIGHT);
         }
-    }, false);
-  }
-  drawBoard(){
-    ctx.strokeStyle = "#00FF00";
-    ctx.lineWidth = 10;
-    ctx.beginPath();
-    for (var i = 0; i <= NUM_ROWS; i++){
-        ctx.moveTo(0, i * CELL_HEIGHT);
-        ctx.lineTo(BOARD_SIZE, i * CELL_HEIGHT);
+        for (var i = 0; i <= NUM_COLS; i++){
+            ctx.moveTo(i * CELL_WIDTH, 0);
+            ctx.lineTo(i * CELL_WIDTH, BOARD_SIZE); 
+        }
+        ctx.stroke();
     }
-    for (var i = 0; i <= NUM_COLS; i++){
-        ctx.moveTo(i * CELL_WIDTH, 0);
-        ctx.lineTo(i * CELL_WIDTH, BOARD_SIZE); 
+
+    drawCell(x, y, color){
+        ctx.fillStyle = color;
+        // Remember to account for upper-left origin
+        ctx.fillRect(x * CELL_WIDTH, (NUM_ROWS - y - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, color);
     }
-    ctx.stroke();
-  }
 
-  drawCell(x, y, color){
-    ctx.fillStyle = color;
-    // Remember to account for upper-left origin
-    ctx.fillRect(x * CELL_WIDTH, (NUM_ROWS - y - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, color);
-  }
-
-  onGAMESTATE(data){
-    console.log(data);
-    data = data.split("");
-    for (var i = 0; i < NUM_COLS; i++){
-        for (var j = 0; j < NUM_ROWS; j++){
-            var c = data[i * NUM_COLS + j];
-            if (c == "."){
-                this.drawCell(i, j, "black");
-            }
-            else if (c == "F"){
-                this.drawCell(i, j, "red");
-            }
-            else if (c == "0"){
-                this.drawCell(i, j, "green");
-            }
-            else if (c == "1"){
-                this.drawCell(i, j, "blue");
-            }
-            else{
-                this.drawCell(i, j, "yellow");
+    onGAMESTATE(data){
+        console.log(data);
+        data = data.split("");
+        for (var i = 0; i < NUM_COLS; i++){
+            for (var j = 0; j < NUM_ROWS; j++){
+                var c = data[i * NUM_COLS + j];
+                if (c == "."){
+                    this.drawCell(i, j, "black");
+                }
+                else if (c == "F"){
+                    this.drawCell(i, j, "red");
+                }
+                else if (c == "0"){
+                    this.drawCell(i, j, "green");
+                }
+                else if (c == "1"){
+                    this.drawCell(i, j, "blue");
+                }
+                else{
+                    this.drawCell(i, j, "yellow");
+                }
             }
         }
+        this.drawBoard();
     }
-    this.drawBoard();
-  }
 }
 export default CanvasContainer;

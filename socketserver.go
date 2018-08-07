@@ -26,7 +26,7 @@ func (ss *SocketServer) Listen() {
     server.OnNewSocket(ss.OnNewSocket)
     err := server.Run()
 	if err != nil{
-        //find a better way to handler errors
+        //find a better way to handle errors
 		fmt.Println(err)
     }
 }
