@@ -33,12 +33,12 @@ func gameListener(g *Game) {
 
 func (g *Game) notifyAll(channel string, msg string){
 	for _, player := range (*g).players {
-		player.socket.Channel(channel).Write(msg)
+		player.Channel(channel).Write(msg)
 	}
 }
 
 func (g *Game) notifyOne(playerIndex int, channel string, msg string){
-	(*g).players[playerIndex].socket.Channel(channel).Write(msg)
+	(*g).players[playerIndex].Channel(channel).Write(msg)
 }
 
 func (g *Game) keyPress(p *Player, dir int){

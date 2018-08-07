@@ -3,7 +3,7 @@ import ModalContent from "./ModalContent.jsx";
 
 class Modal extends React.Component {
     constructor() {
-      super();
+        super();
     }
 
     render() {

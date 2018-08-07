@@ -5,7 +5,7 @@ class ModalContent extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            message: "Welcome",
+            message: "websnake.",
             buttonVisible: true
         };
 
@@ -16,16 +16,15 @@ class ModalContent extends React.Component {
     render() {
         var style = {
             color:"#FFFFFF",
-            marginRight:"200px",
-            marginBottom:"200px"
+            fontFamily: "Courier New, Courier, monospace"
         };
         return (
             <div id="content" style={style}>
                 <h1>{this.state.message}</h1>
                 {
-                this.state.buttonVisible? 
-                <Button label={"Start a Game"} onClick={this.startButtonPress} /> :
-                null
+                    this.state.buttonVisible? 
+                    <Button label={"Start a Game"} onClick={this.startButtonPress} /> :
+                    null
                 }
             </div>
         );
@@ -57,6 +56,10 @@ class ModalContent extends React.Component {
                 })
             }, 2000);
             break;
+        case "GAMEOVER":
+            this.setState({
+                message: "Game over."
+            })
         } 
     }
 }

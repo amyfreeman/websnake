@@ -91,6 +91,9 @@ class App extends React.Component {
                 });
                 break;
             case "GAMEOVER":
+                this.setState({
+                    modalPresent: true
+                });
                 break;
             default:
                 console.log("Unkown 'STATUS' command detected: " + data);

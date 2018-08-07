@@ -7,14 +7,14 @@ import (
 )
 
 type Player struct {
-	// compose with socket instead?
-	socket *glue.Socket
+	*glue.Socket
 	name string
 }
 
 func createPlayer(socket *glue.Socket) *Player {
 	p := Player{
-		socket: socket,
+		socket,
+		"unknown",
 	}
 	return &p
 }
