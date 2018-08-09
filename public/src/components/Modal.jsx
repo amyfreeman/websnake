@@ -20,8 +20,8 @@ class Modal extends React.Component {
             justifyContent: "center", alignItems: "center"
         };
         return (
-            <div id="modal" style={style}>
-            <ModalContent registerHandler={this.props.registerHandler} send={this.props.send}/>
+            <div id="Modal" style={style}>
+                <ModalContent registerHandler={this.props.registerHandler} send={this.props.send}/>
             </div>
         );
     }

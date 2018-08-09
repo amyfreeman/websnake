@@ -17,11 +17,13 @@ class ModalContent extends React.Component {
         var style = {
             color:"#FFFFFF",
             fontFamily: "Courier New, Courier, monospace",
-            fontSize: "3em",
-            margin: "0px"
+            fontSize: "5em",
+            display: "flex",
+            justifyContent: "center", alignItems: "center",
+            flexDirection: "column"
         };
         return (
-            <div id="content" style={style}>
+            <div id="ModalContent" style={style}>
                 <h1>{this.state.message}</h1>
                 {
                     this.state.buttonVisible? 
