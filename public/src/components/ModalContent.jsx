@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button.jsx";
+import css from '../w3.css';
 
 class ModalContent extends React.Component {
     constructor(props) {
@@ -14,20 +15,30 @@ class ModalContent extends React.Component {
         props.registerHandler("STATUS", this.onSTATUS);
     }
     render() {
-        var style = {
-            color:"#FFFFFF",
-            fontFamily: "Courier New, Courier, monospace",
-            fontSize: "5em",
+        var divStyle = {
             display: "flex",
             justifyContent: "center", alignItems: "center",
-            flexDirection: "column"
+            flexDirection: "column",
+            fontFamily: "Courier New, Courier, monospace",
+        }
+        var h1Style = {
+            color:"#FFFFFF",
+            fontSize: "5em",
+        };
+        var inputStyle = {
+            marginBottom: "10px",
+            fontSize: "1em",
+            lineHeight: "1.5em",
         };
         return (
-            <div id="ModalContent" style={style}>
-                <h1>{this.state.message}</h1>
+            <div style={divStyle} id="ModalContent">
+                <h1 style={h1Style}>{this.state.message}</h1>
                 {
-                    this.state.buttonVisible? 
-                    <Button label={"Start a Game"} onClick={this.startButtonPress} /> :
+                    this.state.buttonVisible?
+                    <div style={{width: "100%"}}>
+                        <input className="w3-input" style={inputStyle} type="text" placeholder="Nickname"></input>
+                        <Button label={"Start a Game"} onClick={this.startButtonPress} />
+                    </div> :
                     null
                 }
             </div>
@@ -36,7 +47,7 @@ class ModalContent extends React.Component {
 
     startButtonPress(){
         this.setState({
-            message: "Waiting...",
+            message: "WAITING...",
             buttonVisible: false
         });
         this.props.send("STATUS", "READY");
