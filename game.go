@@ -25,7 +25,7 @@ func gameListener(g *Game) {
 			g.notifyOne(0, "GAMESTATE", g.snake.GetStateString())
 			g.notifyOne(1, "GAMESTATE", g.snake.GetInvertedStateString())
 		}
-		g.gameover = g.snake.Gameover
+		g.gameover = g.snake.Gameover()
 	}
 	g.notifyAll("STATUS", "GAMEOVER")
 	fmt.Println("Game over")

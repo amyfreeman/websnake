@@ -10,8 +10,8 @@ import (
 
 type SocketServer struct {
     port string
-    players map[string] *Player
-    games map[*Player] *Game
+    players map[string] *Player // Maps (*glue.Socket).ID() to *Player
+    games map[*Player] *Game    // Maps *Player to *Game
     nextStranger *Player
 }
 

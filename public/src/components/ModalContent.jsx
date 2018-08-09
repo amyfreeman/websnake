@@ -5,7 +5,7 @@ class ModalContent extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            message: "websnake.",
+            message: "WEBSNAKE",
             buttonVisible: true
         };
 
@@ -16,7 +16,9 @@ class ModalContent extends React.Component {
     render() {
         var style = {
             color:"#FFFFFF",
-            fontFamily: "Courier New, Courier, monospace"
+            fontFamily: "Courier New, Courier, monospace",
+            fontSize: "3em",
+            margin: "0px"
         };
         return (
             <div id="content" style={style}>

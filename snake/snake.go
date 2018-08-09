@@ -15,7 +15,7 @@ type Snake struct {
 	height int
 	bodies []*Body
 	foods []*Food
-	Gameover bool
+	gameover bool
 	isDead []bool
 }
 
@@ -39,7 +39,7 @@ func (sn *Snake) Step(){
 				}
 			}
 		} else{
-			sn.Gameover = true
+			sn.gameover = true
 		}
 	}
 }
@@ -89,6 +89,10 @@ func (sn *Snake) getObjectAt(cell Cell) string{
 		}
 	}
 	return "."
+}
+
+func (sn *Snake) Gameover() bool{
+	return sn.gameover
 }
 
 func (sn *Snake) GetStateString() string{
