@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./Button.jsx";
 import css from '../w3.css';
-import css2 from '../custom.css';
+import css2 from './ModalContent.css';
 
 class ModalContent extends React.Component {
     constructor(props) {
@@ -74,19 +74,19 @@ class ModalContent extends React.Component {
             });
             setTimeout(()=>{
                 this.setState({
-                    message: "Game beginning in 3 seconds.",
+                    message: "Game starting in 3",
                     buttonVisible: false,
                     opacity: 1,
                 });
             }, 1000);
             setTimeout(()=>{
                 this.setState({
-                    message: "Game beginning in 2 seconds."
+                    message: "Game starting in 2"
                 })
             }, 2000);
             setTimeout(()=>{
                 this.setState({
-                    message: "Game beginning in 1 seconds."
+                    message: "Game starting in 1"
                 })
             }, 3000);
             break;

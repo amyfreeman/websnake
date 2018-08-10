@@ -5,3 +5,5 @@
     -o-transition: opacity 1s ease-in-out;
     transition: opacity 1s ease-in-out;
 }
+
+::-webkit-input-placeholder{color:inherit;opacity:0.54;line-height:1.5em}
