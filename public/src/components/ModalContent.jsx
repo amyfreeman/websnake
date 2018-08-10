@@ -1,13 +1,15 @@
 import React from "react";
 import Button from "./Button.jsx";
 import css from '../w3.css';
+import css2 from '../custom.css';
 
 class ModalContent extends React.Component {
     constructor(props) {
         super();
         this.state = {
             message: "WEBSNAKE",
-            buttonVisible: true
+            buttonVisible: true,
+            opacity: 1,
         };
 
         this.startButtonPress = this.startButtonPress.bind(this);
@@ -20,6 +22,7 @@ class ModalContent extends React.Component {
             justifyContent: "center", alignItems: "center",
             flexDirection: "column",
             fontFamily: "Courier New, Courier, monospace",
+            opacity: this.state.opacity,
         }
         var h1Style = {
             color:"#FFFFFF",
@@ -31,7 +34,7 @@ class ModalContent extends React.Component {
             lineHeight: "1.5em",
         };
         return (
-            <div style={divStyle} id="ModalContent">
+            <div className="ModalContent" style={divStyle} id="ModalContent">
                 <h1 style={h1Style}>{this.state.message}</h1>
                 {
                     this.state.buttonVisible?
@@ -46,10 +49,20 @@ class ModalContent extends React.Component {
     }
 
     startButtonPress(){
+        setTimeout(()=>{
+            this.setState({
+                message: "WAITING.\u00A0\u00A0",
+                buttonVisible: false,
+                opacity: 1
+            });
+            setInterval(()=>{
+                this.updateMessage()
+            }, 1000);
+        }, 1000);
         this.setState({
-            message: "WAITING...",
-            buttonVisible: false
+            opacity: 0
         });
+
         this.props.send("STATUS", "READY");
     }
 
@@ -57,25 +70,43 @@ class ModalContent extends React.Component {
         switch(data) {
         case "OPPONENT_FOUND":
             this.setState({
-                message: "Game beginning in 3 seconds.",
-                buttonVisible: false
-            })
+                opacity: 0
+            });
             setTimeout(()=>{
                 this.setState({
-                message: "Game beginning in 2 seconds."
-                })
+                    message: "Game beginning in 3 seconds.",
+                    buttonVisible: false,
+                    opacity: 1,
+                });
             }, 1000);
             setTimeout(()=>{
                 this.setState({
-                message: "Game beginning in 1 seconds."
+                    message: "Game beginning in 2 seconds."
                 })
             }, 2000);
+            setTimeout(()=>{
+                this.setState({
+                    message: "Game beginning in 1 seconds."
+                })
+            }, 3000);
             break;
         case "GAMEOVER":
             this.setState({
                 message: "Game over."
             })
         } 
+    }
+    updateMessage(){
+        switch(this.state.message){
+        case "WAITING...":
+            this.setState({message: "WAITING.\u00A0\u00A0"});
+            return;
+        case "WAITING.\u00A0\u00A0":
+            this.setState({message: "WAITING..\u00A0"});
+            return;
+        case "WAITING..\u00A0":
+            this.setState({message: "WAITING..."});
+        }
     }
 }
 

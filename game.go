@@ -65,7 +65,7 @@ func createGame(gameId string, p1 *Player, p2 *Player) *Game {
 	g.players[0] = p1
 	g.players[1] = p2
 	g.notifyAll("STATUS", "OPPONENT_FOUND")
-	time.Sleep(3 * time.Second)
+	time.Sleep(4 * time.Second)
 	g.notifyAll("STATUS", "BEGIN")
 	go gameListener(&g)
 	return &g
