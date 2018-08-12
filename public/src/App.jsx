@@ -10,25 +10,25 @@ var handlers = {};
 class App extends React.Component {
     constructor() {
         super();
-        this.state = {
-            modalPresent: true
-        }
         this.initiateSockets();
+
         this.send = this.send.bind(this);
         this.registerHandler = this.registerHandler.bind(this);
         this.onSTATUS = this.onSTATUS.bind(this);
         this.registerHandler("STATUS", this.onSTATUS);
     }
+
     render() {
         return (
             <div id="root">
-            <CanvasContainer registerHandler={this.registerHandler} send={this.send}/>
-            {this.state.modalPresent? <Modal registerHandler={this.registerHandler} send={this.send}/> : null}
+                <CanvasContainer registerHandler={this.registerHandler} send={this.send}/>
+                <Modal registerHandler={this.registerHandler} send={this.send}/>
             </div>
         );
     }
+
     initiateSockets(){
-    this._socket = glue();
+        this._socket = glue();
         this._socket.onMessage((data)=>{
             console.log("hey so...we've received a socket message without a channel...dat bad: " + data);
         });
@@ -65,6 +65,7 @@ class App extends React.Component {
             console.log("socket discard_send_buffer");
         });
     }
+
     registerHandler(channel, handler){
         if (channel in handlers){
             handlers[channel].push(handler);
@@ -78,23 +79,19 @@ class App extends React.Component {
             }
         });
     }
+
     send(channel, message){
         this._socket.channel(channel).send(message);
     }
+
     onSTATUS(data){
         console.log(data);
         switch(data) {
             case "OPPONENT_FOUND":
                 break;
             case "BEGIN":
-                this.setState({
-                    modalPresent: false
-                });
                 break;
             case "GAMEOVER":
-                this.setState({
-                    modalPresent: true
-                });
                 break;
             default:
                 console.log("Unkown 'STATUS' command detected: " + data);

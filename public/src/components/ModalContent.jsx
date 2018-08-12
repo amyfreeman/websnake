@@ -16,6 +16,7 @@ class ModalContent extends React.Component {
         this.onSTATUS = this.onSTATUS.bind(this);
         props.registerHandler("STATUS", this.onSTATUS);
     }
+
     render() {
         var divStyle = {
             display: "flex",
@@ -39,7 +40,7 @@ class ModalContent extends React.Component {
                 {
                     this.state.buttonVisible?
                     <div style={{width: "100%"}}>
-                        <input className="w3-input" style={inputStyle} type="text" placeholder="Nickname"></input>
+                        <input id="ModalContent-input" className="w3-input" style={inputStyle} type="text" placeholder="Nickname"></input>
                         <Button label={"Start a Game"} onClick={this.startButtonPress} />
                     </div> :
                     null
@@ -48,16 +49,26 @@ class ModalContent extends React.Component {
         );
     }
 
+    componentDidMount() {
+        document.getElementById("ModalContent-input").addEventListener("keyup", (event) => {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                this.startButtonPress();
+            }
+        });
+    }
+
     startButtonPress(){
         setTimeout(()=>{
+            var updateMessageIntervalId = setInterval(()=>{
+                this.updateMessage()
+            }, 1000);
             this.setState({
                 message: "WAITING.\u00A0\u00A0",
                 buttonVisible: false,
-                opacity: 1
+                opacity: 1,
+                updateMessageIntervalId: updateMessageIntervalId,
             });
-            setInterval(()=>{
-                this.updateMessage()
-            }, 1000);
         }, 1000);
         this.setState({
             opacity: 0
@@ -68,44 +79,46 @@ class ModalContent extends React.Component {
 
     onSTATUS(data){
         switch(data) {
-        case "OPPONENT_FOUND":
-            this.setState({
-                opacity: 0
-            });
-            setTimeout(()=>{
+            case "OPPONENT_FOUND":
+                clearInterval(this.state.updateMessageIntervalId);
                 this.setState({
-                    message: "Game starting in 3",
-                    buttonVisible: false,
-                    opacity: 1,
+                    opacity: 0
                 });
-            }, 1000);
-            setTimeout(()=>{
+                setTimeout(()=>{
+                    this.setState({
+                        message: "Game starting in 3",
+                        buttonVisible: false,
+                        opacity: 1,
+                    });
+                }, 1000);
+                setTimeout(()=>{
+                    this.setState({
+                        message: "Game starting in 2"
+                    })
+                }, 2000);
+                setTimeout(()=>{
+                    this.setState({
+                        message: "Game starting in 1"
+                    })
+                }, 3000);
+                break;
+            case "GAMEOVER":
                 this.setState({
-                    message: "Game starting in 2"
-                })
-            }, 2000);
-            setTimeout(()=>{
-                this.setState({
-                    message: "Game starting in 1"
-                })
-            }, 3000);
-            break;
-        case "GAMEOVER":
-            this.setState({
-                message: "Game over."
-            })
-        } 
+                    message: "Game over."
+                });
+        }
     }
+
     updateMessage(){
         switch(this.state.message){
-        case "WAITING...":
-            this.setState({message: "WAITING.\u00A0\u00A0"});
-            return;
-        case "WAITING.\u00A0\u00A0":
-            this.setState({message: "WAITING..\u00A0"});
-            return;
-        case "WAITING..\u00A0":
-            this.setState({message: "WAITING..."});
+            case "WAITING...":
+                this.setState({message: "WAITING.\u00A0\u00A0"});
+                return;
+            case "WAITING.\u00A0\u00A0":
+                this.setState({message: "WAITING..\u00A0"});
+                return;
+            case "WAITING..\u00A0":
+                this.setState({message: "WAITING..."});
         }
     }
 }
