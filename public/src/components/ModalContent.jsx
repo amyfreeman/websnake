@@ -5,7 +5,7 @@ import css2 from './ModalContent.css';
 
 class ModalContent extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             message: "WEBSNAKE",
             buttonVisible: true,
@@ -50,6 +50,16 @@ class ModalContent extends React.Component {
     }
 
     componentDidMount() {
+        this.registerInputKeyupListener();
+    }
+
+    componentDidUpdate() {
+        if (this.state.buttonVisible){
+            this.registerInputKeyupListener();
+        }
+    }
+
+    registerInputKeyupListener() {
         document.getElementById("ModalContent-input").addEventListener("keyup", (event) => {
             event.preventDefault();
             if (event.keyCode === 13) {
@@ -104,7 +114,8 @@ class ModalContent extends React.Component {
                 break;
             case "GAMEOVER":
                 this.setState({
-                    message: "Game over."
+                    message: "Game over.",
+                    buttonVisible: true,
                 });
         }
     }

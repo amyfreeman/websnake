@@ -3,10 +3,11 @@ import ModalContent from "./ModalContent.jsx";
 
 class Modal extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
-            opacity: 1
+            opacity: 1,
         };
+
         this.onSTATUS = this.onSTATUS.bind(this);
         props.registerHandler("STATUS", this.onSTATUS);
     }
