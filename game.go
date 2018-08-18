@@ -20,7 +20,7 @@ func gameListener(g *Game) {
 	g.notifyOne(1, "GAMESTATE", g.snake.GetInvertedStateString())
 	t := time.Now()
 	for !g.gameover {
-		if time.Since(t) > 200000000 {
+		if time.Since(t) > 1000000000 {
 			t = time.Now()
 			g.snake.Step()
 			g.notifyOne(0, "GAMESTATE", g.snake.GetStateString())
@@ -33,7 +33,7 @@ func gameListener(g *Game) {
 }
 
 func (g *Game) notifyAll(channel string, msg string) {
-	for _, player := range (*g).players {
+	for _, player := range g.players {
 		player.Channel(channel).Write(msg)
 	}
 }
@@ -43,7 +43,7 @@ func (g *Game) notifyOne(playerIndex int, channel string, msg string) {
 }
 
 func (g *Game) keyPress(p *Player, dir int) {
-	for i := 0; i < len(g.players); i++ {
+	for i := range g.players {
 		if g.players[i] == p {
 			if i == 0 {
 				g.snake.Move(i, dir)

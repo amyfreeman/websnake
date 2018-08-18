@@ -11,6 +11,7 @@ class ModalContent extends React.Component {
             inputsVisible: true,
             nicknameInputVisible: true,
             opacity: 1,
+            startButtonEnabled: true,
         };
 
         this.startButtonPress = this.startButtonPress.bind(this);
@@ -78,24 +79,29 @@ class ModalContent extends React.Component {
     }
 
     startButtonPress(){
-        setTimeout(()=>{
-            var updateMessageIntervalId = setInterval(()=>{
-                this.updateMessage()
-            }, 1000);
+        console.log(this.state.startButtonEnabled);
+        if (this.state.startButtonEnabled){
             this.setState({
-                message: "WAITING.\u00A0\u00A0",
-                inputsVisible: false,
-                opacity: 1,
-                updateMessageIntervalId: updateMessageIntervalId,
+                opacity: 0,
+                startButtonEnabled: false,
             });
-        }, 1000);
-        if (this.state.nicknameInputVisible){
-            this.props.send("NICKNAME", document.getElementById("nickname-input").value);
+            setTimeout(()=>{
+                var updateMessageIntervalId = setInterval(()=>{
+                    this.updateMessage()
+                }, 1000);
+                this.setState({
+                    message: "WAITING.\u00A0\u00A0",
+                    inputsVisible: false,
+                    opacity: 1,
+                    updateMessageIntervalId: updateMessageIntervalId,
+                    startButtonEnabled: true,
+                });
+            }, 1000);
+            if (this.state.nicknameInputVisible){
+                this.props.send("NICKNAME", document.getElementById("nickname-input").value);
+            }
+            this.props.send("STATUS", "READY");
         }
-        this.props.send("STATUS", "READY");
-        this.setState({
-            opacity: 0
-        });
     }
 
     onSTATUS(data){
