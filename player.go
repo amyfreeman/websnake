@@ -8,13 +8,13 @@ import (
 
 type Player struct {
 	*glue.Socket
-	name string
+	Nickname string
 }
 
 func createPlayer(socket *glue.Socket) *Player {
 	p := Player{
 		socket,
-		"unknown",
+		"Nickname",
 	}
 	return &p
 }

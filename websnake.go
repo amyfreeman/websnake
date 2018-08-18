@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+
 	"github.com/cdalizadeh/websnake/snake"
 )
 
@@ -12,7 +13,7 @@ func main() {
 	createSocketServer(PORT)
 }
 
-func testGame(){
+func testGame() {
 	fmt.Println(string(3))
 	sn := snake.CreateSnake()
 	sn.Step()

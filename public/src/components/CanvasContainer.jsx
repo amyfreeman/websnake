@@ -5,6 +5,14 @@ const NUM_COLS = 10;
 const BOARD_SIZE = 0.8 * Math.min(window.innerWidth, window.innerHeight);
 const CELL_WIDTH = BOARD_SIZE / NUM_COLS;
 const CELL_HEIGHT = BOARD_SIZE / NUM_ROWS;
+const GRID_COLOR = "#00FF00";
+const MY_COLOR = "white";
+const OPPONENT_COLOR = "blue";
+const FOOD_COLOR = "red";
+const BG_COLOR = "black";
+const UNKNOWN_COLOR = "yellow";
+
+
 var canvas;
 var ctx;
 
@@ -16,6 +24,7 @@ class CanvasContainer extends React.Component {
         this.onGAMESTATE = this.onGAMESTATE.bind(this);
         props.registerHandler("GAMESTATE", this.onGAMESTATE);
     }
+
     render() {
         var style = {
             minHeight: "100vh",
@@ -30,12 +39,13 @@ class CanvasContainer extends React.Component {
             </div>
         );
     }
+
     componentDidMount() {
         canvas = document.getElementById("maincanvas");
         ctx = canvas.getContext("2d");
         ctx.canvas.width  = BOARD_SIZE;
         ctx.canvas.height = BOARD_SIZE;
-        this.drawBoard();
+        this.drawGrid();
 
         window.addEventListener('keydown', (event) => {
             switch (event.keyCode) {
@@ -53,9 +63,11 @@ class CanvasContainer extends React.Component {
                     break;
             }
         }, false);
+        this.drawStartingPositions();
     }
-    drawBoard(){
-        ctx.strokeStyle = "#00FF00";
+
+    drawGrid(){
+        ctx.strokeStyle = GRID_COLOR;
         ctx.lineWidth = 10;
         ctx.beginPath();
         for (var i = 0; i <= NUM_ROWS; i++){
@@ -71,7 +83,7 @@ class CanvasContainer extends React.Component {
 
     drawCell(x, y, color){
         ctx.fillStyle = color;
-        // Remember to account for upper-left origin
+        // Remember to account for canvas origin at upper-left
         ctx.fillRect(x * CELL_WIDTH, (NUM_ROWS - y - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, color);
     }
 
@@ -82,23 +94,29 @@ class CanvasContainer extends React.Component {
             for (var j = 0; j < NUM_ROWS; j++){
                 var c = data[i * NUM_COLS + j];
                 if (c == "."){
-                    this.drawCell(i, j, "black");
+                    this.drawCell(i, j, BG_COLOR);
                 }
                 else if (c == "F"){
-                    this.drawCell(i, j, "red");
+                    this.drawCell(i, j, FOOD_COLOR);
                 }
                 else if (c == "0"){
-                    this.drawCell(i, j, "green");
+                    this.drawCell(i, j, MY_COLOR);
                 }
                 else if (c == "1"){
-                    this.drawCell(i, j, "blue");
+                    this.drawCell(i, j, OPPONENT_COLOR);
                 }
                 else{
-                    this.drawCell(i, j, "yellow");
+                    this.drawCell(i, j, UNKNOWN_COLOR);
                 }
             }
         }
-        this.drawBoard();
+        this.drawGrid();
+    }
+
+    drawStartingPositions(){
+        this.drawCell(0, 0, MY_COLOR);
+        this.drawCell(NUM_COLS - 1, NUM_ROWS - 1, OPPONENT_COLOR);
+        this.drawGrid();
     }
 }
 export default CanvasContainer;

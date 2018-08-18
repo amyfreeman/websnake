@@ -1,6 +1,8 @@
 Client -> Server:
     "STATUS" channel
         "READY"             indicates that the client is ready to play a game
+    "NICKNAME" channel
+        <name>              indicates the client's chosen name
     "GAMEPLAY" channel
         "UP"                indicates up key press
         "DOWN"              indicates down key press
