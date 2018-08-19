@@ -7,10 +7,10 @@ import (
 	"github.com/cdalizadeh/websnake/snake"
 )
 
-var PORT = ":8069"
+var port = ":8069"
 
 func main() {
-	createSocketServer(PORT)
+	Listen()
 }
 
 func testGame() {

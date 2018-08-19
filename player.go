@@ -1,5 +1,3 @@
-//For now, player is ENTIRELY defined by current glue socket.
-
 package main
 
 import (
@@ -9,12 +7,14 @@ import (
 type Player struct {
 	*glue.Socket
 	Nickname string
+	Game     *Game
 }
 
 func createPlayer(socket *glue.Socket) *Player {
 	p := Player{
 		socket,
 		"Nickname",
+		nil,
 	}
 	return &p
 }

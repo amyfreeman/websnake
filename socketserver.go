@@ -5,26 +5,19 @@ import (
 	"net/http"
 
 	"github.com/desertbit/glue"
-	"github.com/nu7hatch/gouuid"
-	//"reflect"
 )
 
-type SocketServer struct {
-	port         string
-	players      map[string]*Player // Maps (*glue.Socket).ID() to *Player
-	games        map[*Player]*Game  // Maps *Player to *Game
-	nextStranger *Player
-}
+var nextStranger *Player = nil
 
-func (ss *SocketServer) Listen() {
-	fmt.Println("SocketServer listening at http://localhost" + ss.port)
+func Listen() {
+	fmt.Println("SocketServer listening at http://localhost" + port)
 
 	http.Handle("/", http.FileServer(http.Dir("public/dist")))
 	server := glue.NewServer(glue.Options{
-		HTTPListenAddress: ss.port,
+		HTTPListenAddress: port,
 	})
 	defer server.Release()
-	server.OnNewSocket(ss.OnNewSocket)
+	server.OnNewSocket(OnNewSocket)
 	err := server.Run()
 	if err != nil {
 		//find a better way to handle errors
@@ -32,36 +25,35 @@ func (ss *SocketServer) Listen() {
 	}
 }
 
-func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
-	s.OnRead(func(data string) {
+func OnNewSocket(s *glue.Socket) {
+	p := createPlayer(s)
+
+	p.OnRead(func(data string) {
 		fmt.Println("Unknown socket command detected: " + data)
 	})
 
-	s.Channel("STATUS").OnRead(func(data string) {
-		p := ss.players[s.ID()]
-
+	p.Channel("STATUS").OnRead(func(data string) {
 		switch data {
 		case "READY":
 			fmt.Println(p.Nickname + " is ready to start")
-			if ss.nextStranger == nil {
-				ss.nextStranger = p
+			if nextStranger == nil {
+				nextStranger = p
 			} else {
-				var p2 = ss.nextStranger
-				ss.nextStranger = nil
-				ss.makeGame(p2, p)
+				var p2 = nextStranger
+				nextStranger = nil
+				createGame(p2, p)
 			}
 		default:
 			fmt.Println("Unknown STATUS command detected: " + data)
 		}
 	})
 
-	s.Channel("NICKNAME").OnRead(func(data string) {
-		ss.players[s.ID()].Nickname = data
+	p.Channel("NICKNAME").OnRead(func(data string) {
+		p.Nickname = data
 	})
 
-	s.Channel("GAMEPLAY").OnRead(func(data string) {
-		p := ss.players[s.ID()]
-		game := ss.games[p]
+	p.Channel("GAMEPLAY").OnRead(func(data string) {
+		game := p.Game
 		if game != nil {
 			switch data {
 			case "LEFT":
@@ -78,36 +70,12 @@ func (ss *SocketServer) OnNewSocket(s *glue.Socket) {
 		}
 	})
 
-	s.OnClose(func() {
-		fmt.Println("socket closed with remote address:", s.RemoteAddr())
+	p.OnClose(func() {
+		if nextStranger == p {
+			nextStranger = nil
+		}
+		fmt.Println("socket closed with remote address:", p.RemoteAddr())
 	})
 
-	p := createPlayer(s)
-	ss.players[s.ID()] = p
-
-	// run on a server other than localhost, find out if this works
-	fmt.Println("socket open with remote address:", s.RemoteAddr())
-}
-
-func (ss *SocketServer) makeGame(p1 *Player, p2 *Player) {
-	fmt.Println("Making New Game")
-	u4, err := uuid.NewV4()
-	if err != nil {
-		// better error handling
-		fmt.Println("error:", err)
-	}
-	gameID := u4.String()
-	game := createGame(gameID, p1, p2)
-	ss.games[p1] = game
-	ss.games[p2] = game
-}
-
-func createSocketServer(port string) {
-	ss := SocketServer{
-		port:         port,
-		players:      make(map[string]*Player),
-		games:        make(map[*Player]*Game),
-		nextStranger: nil,
-	}
-	ss.Listen()
+	fmt.Println("socket open with remote address:", p.RemoteAddr())
 }

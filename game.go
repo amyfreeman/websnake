@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/cdalizadeh/websnake/snake"
+	"github.com/nu7hatch/gouuid"
 )
 
 type Game struct {
@@ -20,7 +21,7 @@ func gameListener(g *Game) {
 	g.notifyOne(1, "GAMESTATE", g.snake.GetInvertedStateString())
 	t := time.Now()
 	for !g.gameover {
-		if time.Since(t) > 1000000000 {
+		if time.Since(t) > 100000000 {
 			t = time.Now()
 			g.snake.Step()
 			g.notifyOne(0, "GAMESTATE", g.snake.GetStateString())
@@ -55,9 +56,16 @@ func (g *Game) keyPress(p *Player, dir int) {
 	}
 }
 
-func createGame(gameId string, p1 *Player, p2 *Player) *Game {
+func createGame(p1 *Player, p2 *Player) *Game {
+	fmt.Println("Making New Game")
+	u4, err := uuid.NewV4()
+	if err != nil {
+		// better error handling
+		fmt.Println("error:", err)
+	}
+
 	g := Game{
-		gameId:   gameId,
+		gameId:   u4.String(),
 		players:  make([]*Player, 2, 4),
 		gameover: false,
 		snake:    snake.CreateSnake(),
@@ -65,6 +73,8 @@ func createGame(gameId string, p1 *Player, p2 *Player) *Game {
 	// todo: add the two lines below to initializer
 	g.players[0] = p1
 	g.players[1] = p2
+	p1.Game = &g
+	p2.Game = &g
 	g.notifyAll("STATUS", "OPPONENT_FOUND")
 	time.Sleep(4 * time.Second)
 	g.notifyAll("STATUS", "BEGIN")
