@@ -8,8 +8,10 @@ import (
 	"github.com/nu7hatch/gouuid"
 )
 
+// Game is the interface between the server and the internal game mechanics. Each game has an ID, list of players, reference to a
+// snake game, and gameover flag.
 type Game struct {
-	gameId   string
+	gameID   string
 	players  []*Player
 	snake    *snake.Snake
 	gameover bool
@@ -65,10 +67,10 @@ func createGame(p1 *Player, p2 *Player) *Game {
 	}
 
 	g := Game{
-		gameId:   u4.String(),
+		gameID:   u4.String(),
 		players:  make([]*Player, 2, 4),
 		gameover: false,
-		snake:    snake.CreateSnake(),
+		snake:    snake.New(),
 	}
 	// todo: add the two lines below to initializer
 	g.players[0] = p1

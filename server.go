@@ -7,17 +7,17 @@ import (
 	"github.com/desertbit/glue"
 )
 
-var nextStranger *Player = nil
+var nextStranger *Player
 
-func Listen() {
-	fmt.Println("SocketServer listening at http://localhost" + port)
+func listen() {
+	fmt.Println("Server listening at http://localhost" + port)
 
 	http.Handle("/", http.FileServer(http.Dir("public/dist")))
 	server := glue.NewServer(glue.Options{
 		HTTPListenAddress: port,
 	})
 	defer server.Release()
-	server.OnNewSocket(OnNewSocket)
+	server.OnNewSocket(onNewSocket)
 	err := server.Run()
 	if err != nil {
 		//find a better way to handle errors
@@ -25,7 +25,7 @@ func Listen() {
 	}
 }
 
-func OnNewSocket(s *glue.Socket) {
+func onNewSocket(s *glue.Socket) {
 	p := createPlayer(s)
 
 	p.OnRead(func(data string) {

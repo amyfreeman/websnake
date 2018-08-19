@@ -10,12 +10,12 @@ import (
 var port = ":8069"
 
 func main() {
-	Listen()
+	listen()
 }
 
 func testGame() {
 	fmt.Println(string(3))
-	sn := snake.CreateSnake()
+	sn := snake.New()
 	sn.Step()
 	sn.Step()
 	sn.Move(1, 0)

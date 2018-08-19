@@ -4,6 +4,7 @@ import (
 	"math"
 )
 
+// Body represents a single snake's body.
 type Body struct {
 	cells   []Cell
 	head    Cell
@@ -53,10 +54,10 @@ func (b *Body) legalCheck() bool {
 	if b.head.y < 0 {
 		return true
 	}
-	if b.head.x > GAME_WIDTH-1 {
+	if b.head.x > gameWidth-1 {
 		return true
 	}
-	if b.head.y > GAME_HEIGHT-1 {
+	if b.head.y > gameHeight-1 {
 		return true
 	}
 	return false
