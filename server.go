@@ -26,7 +26,7 @@ func listen() {
 }
 
 func onNewSocket(s *glue.Socket) {
-	p := createPlayer(s)
+	p := newPlayer(s)
 
 	p.OnRead(func(data string) {
 		fmt.Println("Unknown socket command detected: " + data)
@@ -41,7 +41,7 @@ func onNewSocket(s *glue.Socket) {
 			} else {
 				var p2 = nextStranger
 				nextStranger = nil
-				createGame(p2, p)
+				newGame(p2, p)
 			}
 		default:
 			fmt.Println("Unknown STATUS command detected: " + data)

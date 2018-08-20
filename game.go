@@ -22,6 +22,7 @@ func gameListener(g *Game) {
 	g.notifyOne(0, "GAMESTATE", g.snake.GetStateString())
 	g.notifyOne(1, "GAMESTATE", g.snake.GetInvertedStateString())
 	t := time.Now()
+	var counter = 0
 	for !g.gameover {
 		if time.Since(t) > 100000000 {
 			t = time.Now()
@@ -29,7 +30,9 @@ func gameListener(g *Game) {
 			g.notifyOne(0, "GAMESTATE", g.snake.GetStateString())
 			g.notifyOne(1, "GAMESTATE", g.snake.GetInvertedStateString())
 		}
-		g.gameover = g.snake.Gameover()
+		g.gameover = g.snake.Gameover
+		counter++
+		fmt.Println(counter)
 	}
 	g.notifyAll("STATUS", "GAMEOVER")
 	fmt.Println("Game over")
@@ -58,7 +61,7 @@ func (g *Game) keyPress(p *Player, dir int) {
 	}
 }
 
-func createGame(p1 *Player, p2 *Player) *Game {
+func newGame(p1 *Player, p2 *Player) *Game {
 	fmt.Println("Making New Game")
 	u4, err := uuid.NewV4()
 	if err != nil {

@@ -11,6 +11,7 @@ type Body struct {
 	dir     int
 	nextDir int
 	addCell bool
+	isDead  bool
 }
 
 func (b *Body) step() {
@@ -42,27 +43,6 @@ func (b *Body) grow() {
 	b.addCell = true
 }
 
-func (b *Body) legalCheck() bool {
-	for i := 0; i < len(b.cells)-1; i++ {
-		if b.head.x == b.cells[i].x && b.head.y == b.cells[i].y {
-			return true
-		}
-	}
-	if b.head.x < 0 {
-		return true
-	}
-	if b.head.y < 0 {
-		return true
-	}
-	if b.head.x > gameWidth-1 {
-		return true
-	}
-	if b.head.y > gameHeight-1 {
-		return true
-	}
-	return false
-}
-
 func (b *Body) contains(cell Cell) bool {
 	for i := range b.cells {
 		if cell.x == b.cells[i].x && cell.y == b.cells[i].y {
@@ -72,12 +52,13 @@ func (b *Body) contains(cell Cell) bool {
 	return false
 }
 
-func createBody(x int, y int, dir int, maxlength int) *Body {
+func newBody(x int, y int, dir int, maxlength int) *Body {
 	b := Body{
 		cells:   make([]Cell, 1, maxlength),
 		dir:     dir,
 		nextDir: dir,
 		addCell: false,
+		isDead:  false,
 	}
 	b.cells[0] = Cell{x, y}
 	b.head = b.cells[0]

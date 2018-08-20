@@ -12,7 +12,7 @@ type Player struct {
 	Game     *Game
 }
 
-func createPlayer(socket *glue.Socket) *Player {
+func newPlayer(socket *glue.Socket) *Player {
 	p := Player{
 		socket,
 		"Nickname",

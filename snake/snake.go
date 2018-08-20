@@ -5,10 +5,12 @@ import (
 	"math/rand"
 )
 
-var gameWidth = 10
-var gameHeight = 10
-var numSnakes = 2
-var numFoods = 1
+const (
+	defaultGameWidth  = 10
+	defaultGameHeight = 10
+	defaultNumBodies  = 2
+	defaultNumFoods   = 1
+)
 
 // Snake holds the internal state of the snake game. It holds the game width, game height, list of snake bodies, list of food,
 // gameover flag, and index of the snake which has the current turn.
@@ -16,39 +18,56 @@ type Snake struct {
 	width       int
 	height      int
 	bodies      []*Body
+	numBodies   int
 	foods       []*Food
-	gameover    bool
-	isDead      []bool
+	Gameover    bool
 	currentTurn int
 }
 
 // Step is the function which is called to step the game forward one move. A single snake moves one
 // square forward on a step call.
 func (sn *Snake) Step() {
-	sn.bodies[sn.currentTurn].step()
-	sn.isDead[sn.currentTurn] = sn.legalCheck(sn.bodies[sn.currentTurn])
+	currentBody := sn.bodies[sn.currentTurn]
+	currentBody.step()
+	currentBody.isDead = sn.legalCheck(currentBody)
 
-	if sn.isDead[sn.currentTurn] {
-		sn.gameover = true
+	if currentBody.isDead {
+		sn.Gameover = true
 	} else {
 		for i, food := range sn.foods {
-			if food.contains(sn.bodies[sn.currentTurn].head) {
-				sn.bodies[sn.currentTurn].grow()
-				sn.foods[i] = createFood(sn.getUnoccupiedCell())
+			if food.equals(currentBody.head) {
+				currentBody.grow()
+				sn.foods[i] = newFood(sn.getUnoccupiedCell())
 			}
 		}
 	}
 
-	sn.currentTurn = (sn.currentTurn + 1) % numSnakes
-	for sn.isDead[sn.currentTurn] {
-		sn.currentTurn = (sn.currentTurn + 1) % numSnakes
+	sn.currentTurn = (sn.currentTurn + 1) % sn.numBodies
+	for currentBody.isDead {
+		sn.currentTurn = (sn.currentTurn + 1) % sn.numBodies
+		currentBody = sn.bodies[sn.currentTurn]
 	}
 }
 
 func (sn *Snake) legalCheck(b *Body) bool {
-	if b.legalCheck() {
+	for i := 0; i < len(b.cells)-1; i++ {
+		if b.head.x == b.cells[i].x && b.head.y == b.cells[i].y {
+			return true
+		}
+	}
+	if b.head.x < 0 {
 		return true
 	}
+	if b.head.y < 0 {
+		return true
+	}
+	if b.head.x > sn.width-1 {
+		return true
+	}
+	if b.head.y > sn.height-1 {
+		return true
+	}
+
 	for _, body := range sn.bodies {
 		if body != b {
 			for _, cell := range body.cells {
@@ -63,7 +82,7 @@ func (sn *Snake) legalCheck(b *Body) bool {
 
 // Move sets the next direction of the snake specified.
 func (sn *Snake) Move(player int, dir int) {
-	if !sn.isDead[player] {
+	if !sn.bodies[player].isDead {
 		sn.bodies[player].setDir(dir)
 	}
 }
@@ -102,23 +121,18 @@ func (sn *Snake) getObjectAt(cell Cell) string {
 		}
 	}
 	for _, food := range sn.foods {
-		if food.contains(cell) {
+		if food.equals(cell) {
 			return "F"
 		}
 	}
 	return "."
 }
 
-// Gameover returns the gameover state
-func (sn *Snake) Gameover() bool {
-	return sn.gameover
-}
-
 // GetStateString returns the current display state of the game encoded as a string, from player 1's perspective
 func (sn *Snake) GetStateString() string {
 	var str string
-	for i := 0; i < gameWidth; i++ {
-		for j := 0; j < gameHeight; j++ {
+	for i := 0; i < sn.width; i++ {
+		for j := 0; j < sn.height; j++ {
 			str += sn.getObjectAt(Cell{i, j})
 		}
 	}
@@ -128,8 +142,8 @@ func (sn *Snake) GetStateString() string {
 // GetInvertedStateString returns the current display state of the game encoded as a string, from player 2's perspective
 func (sn *Snake) GetInvertedStateString() string {
 	var str string
-	for i := gameWidth - 1; i >= 0; i-- {
-		for j := gameHeight - 1; j >= 0; j-- {
+	for i := sn.width - 1; i >= 0; i-- {
+		for j := sn.height - 1; j >= 0; j-- {
 			var o = sn.getObjectAt(Cell{i, j})
 
 			if o == "0" {
@@ -146,8 +160,8 @@ func (sn *Snake) GetInvertedStateString() string {
 
 // PrintState prints the current state of the game to the console in human-readable format
 func (sn *Snake) PrintState() {
-	for j := gameHeight - 1; j >= 0; j-- {
-		for i := 0; i < gameWidth; i++ {
+	for j := sn.height - 1; j >= 0; j-- {
+		for i := 0; i < sn.width; i++ {
 			fmt.Print(sn.getObjectAt(Cell{i, j}) + " ")
 		}
 		fmt.Println()
@@ -157,24 +171,24 @@ func (sn *Snake) PrintState() {
 // New returns a new game of snake.
 func New() *Snake {
 	sn := Snake{
-		width:       gameWidth,
-		height:      gameHeight,
-		bodies:      make([]*Body, numSnakes, numSnakes),
-		foods:       make([]*Food, 0, numFoods),
-		isDead:      make([]bool, numSnakes, numSnakes),
+		width:       defaultGameWidth,
+		height:      defaultGameHeight,
+		bodies:      make([]*Body, defaultNumBodies, defaultNumBodies),
+		numBodies:   defaultNumBodies,
+		foods:       make([]*Food, 0, defaultNumFoods),
 		currentTurn: 0,
 	}
-	if numSnakes == 2 {
-		sn.bodies[0] = createBody(0, 0, 0, gameWidth*gameHeight)
-		sn.bodies[1] = createBody(gameWidth-1, gameHeight-1, 2, gameWidth*gameHeight)
-	} else if numSnakes == 4 {
-		sn.bodies[0] = createBody(0, 0, 0, gameWidth*gameHeight)
-		sn.bodies[1] = createBody(0, gameHeight-1, 3, gameWidth*gameHeight)
-		sn.bodies[2] = createBody(gameWidth-1, gameHeight-1, 2, gameWidth*gameHeight)
-		sn.bodies[3] = createBody(gameWidth-1, 0, 1, gameWidth*gameHeight)
+	if defaultNumBodies == 2 {
+		sn.bodies[0] = newBody(0, 0, 0, sn.width*sn.height)
+		sn.bodies[1] = newBody(sn.width-1, sn.height-1, 2, sn.width*sn.height)
+	} else if defaultNumBodies == 4 {
+		sn.bodies[0] = newBody(0, 0, 0, sn.width*sn.height)
+		sn.bodies[1] = newBody(0, sn.height-1, 3, sn.width*sn.height)
+		sn.bodies[2] = newBody(sn.width-1, sn.height-1, 2, sn.width*sn.height)
+		sn.bodies[3] = newBody(sn.width-1, 0, 1, sn.width*sn.height)
 	}
-	for i := 0; i < numFoods; i++ {
-		sn.foods = append(sn.foods, createFood(sn.getUnoccupiedCell()))
+	for i := 0; i < defaultNumFoods; i++ {
+		sn.foods = append(sn.foods, newFood(sn.getUnoccupiedCell()))
 	}
 	return &sn
 }
