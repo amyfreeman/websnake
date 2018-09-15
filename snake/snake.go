@@ -1,6 +1,7 @@
 package snake
 
 import (
+	"bytes"
 	"fmt"
 	"math/rand"
 )
@@ -130,32 +131,32 @@ func (sn *Snake) getObjectAt(cell Cell) string {
 
 // GetStateString returns the current display state of the game encoded as a string, from player 1's perspective
 func (sn *Snake) GetStateString() string {
-	var str string
+	var buffer bytes.Buffer
 	for i := 0; i < sn.width; i++ {
 		for j := 0; j < sn.height; j++ {
-			str += sn.getObjectAt(Cell{i, j})
+			buffer.WriteString(sn.getObjectAt(Cell{i, j}))
 		}
 	}
-	return str
+	return buffer.String()
 }
 
 // GetInvertedStateString returns the current display state of the game encoded as a string, from player 2's perspective
 func (sn *Snake) GetInvertedStateString() string {
-	var str string
+	var buffer bytes.Buffer
 	for i := sn.width - 1; i >= 0; i-- {
 		for j := sn.height - 1; j >= 0; j-- {
 			var o = sn.getObjectAt(Cell{i, j})
 
 			if o == "0" {
-				str += "1"
+				buffer.WriteString("1")
 			} else if o == "1" {
-				str += "0"
+				buffer.WriteString("0")
 			} else {
-				str += o
+				buffer.WriteString(o)
 			}
 		}
 	}
-	return str
+	return buffer.String()
 }
 
 // PrintState prints the current state of the game to the console in human-readable format
