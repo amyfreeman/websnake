@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "./Button.jsx";
-import css from '../w3.css';
-import css2 from './ModalContent.css';
+import css from './ModalContent.css';
 
 class ModalContent extends React.Component {
     constructor(props) {
@@ -43,7 +42,7 @@ class ModalContent extends React.Component {
                     this.state.inputsVisible?
                     <div style={{width: "100%"}}>
                         {this.state.nicknameInputVisible?
-                        <input id="nickname-input" className="w3-input" style={inputStyle} type="text" placeholder="Nickname"></input> :
+                        <input id="nickname-input" className="form-control" style={inputStyle} type="text" placeholder="Nickname"></input> :
                         null}
                         <Button label={"Start a Game"} onClick={this.startButtonPress} />
                     </div> :

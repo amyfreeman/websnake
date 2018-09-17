@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import Modal from "./components/Modal.jsx";
 import CanvasContainer from "./components/CanvasContainer.jsx";
-import css from './reset.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {glue} from './glue.js';
 
 var handlers = {};
