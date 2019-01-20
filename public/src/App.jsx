@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import Modal from "./components/Modal.jsx";
-import CanvasContainer from "./components/CanvasContainer.jsx";
+
+import ModalLayer from "./components/ModalLayer.jsx";
+import CanvasLayer from "./components/CanvasLayer.jsx";
+import NotificationLayer from "./components/NotificationLayer.jsx";
+
 import {glue} from './glue.js';
 
 var handlers = {};
@@ -13,6 +16,7 @@ class App extends React.Component {
 
         this.send = this.send.bind(this);
         this.registerHandler = this.registerHandler.bind(this);
+
         this.onSTATUS = this.onSTATUS.bind(this);
         this.registerHandler("STATUS", this.onSTATUS);
     }
@@ -20,8 +24,9 @@ class App extends React.Component {
     render() {
         return (
             <div id="root">
-                <CanvasContainer registerHandler={this.registerHandler} send={this.send}/>
-                <Modal registerHandler={this.registerHandler} send={this.send}/>
+                <CanvasLayer registerHandler={this.registerHandler} send={this.send}/>
+                <ModalLayer registerHandler={this.registerHandler} send={this.send}/>
+                <NotificationLayer />
             </div>
         );
     }

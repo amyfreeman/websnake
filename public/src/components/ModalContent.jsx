@@ -1,6 +1,31 @@
 import React from "react";
-import Button from "./Button.jsx";
 import css from './ModalContent.css';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+    typography: {
+        color:"#FFFFFF",
+        fontSize: "5em",
+        fontFamily: "Courier New, Courier, monospace",
+    },
+    div: {
+        display: "flex",
+        justifyContent: "center", alignItems: "center",
+        flexDirection: "column",
+    },
+    paper: {
+        width: "100%",
+        display: "flex",
+        justifyContent: "center", alignItems: "center",
+    },
+    textField: {
+        marginRight: "15px",
+    },
+};
 
 class ModalContent extends React.Component {
     constructor(props) {
@@ -19,7 +44,7 @@ class ModalContent extends React.Component {
     }
 
     render() {
-        var divStyle = {
+        /*var divStyle = {
             display: "flex",
             justifyContent: "center", alignItems: "center",
             flexDirection: "column",
@@ -34,9 +59,9 @@ class ModalContent extends React.Component {
             marginBottom: "10px",
             fontSize: "1em",
             lineHeight: "1.5em",
-        };
+        };*/
         return (
-            <div className="ModalContent" style={divStyle} id="ModalContent">
+            /*<div className="ModalContent" style={divStyle} id="ModalContent">
                 <h1 style={h1Style}>{this.state.message}</h1>
                 {
                     this.state.inputsVisible?
@@ -48,19 +73,34 @@ class ModalContent extends React.Component {
                     </div> :
                     null
                 }
+            </div>*/
+            <div className={this.props.classes.div}>
+                <Typography className={this.props.classes.typography} variant="h5" component="h3">
+                    {this.state.message}
+                </Typography>
+                <Paper className={this.props.classes.paper}>
+                    {
+                        this.state.nicknameInputVisible ?
+                        <TextField margin="normal" label="Nickname" className={this.props.classes.textField}/> :
+                        null
+                    }
+                    <Button size="large" variant="contained" color="primary">
+                        BEGIN
+                    </Button>
+                </Paper>
             </div>
         );
     }
 
     componentDidMount() {
-        this.registerInputKeyupListener();
-        this.setInputFocused();
+        //this.registerInputKeyupListener();
+        //this.setInputFocused();
     }
 
     componentDidUpdate() {
         if (this.state.inputsVisible && this.state.nicknameInputVisible){
-            this.registerInputKeyupListener();
-            this.setInputFocused();
+            //this.registerInputKeyupListener();
+            //this.setInputFocused();
         }
     }
 
@@ -151,4 +191,4 @@ class ModalContent extends React.Component {
     }
 }
 
-export default ModalContent;
+export default withStyles(styles)(ModalContent);

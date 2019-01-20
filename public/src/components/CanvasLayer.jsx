@@ -16,7 +16,7 @@ const UNKNOWN_COLOR = "yellow";
 var canvas;
 var ctx;
 
-class CanvasContainer extends React.Component {
+class CanvasLayer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -34,14 +34,14 @@ class CanvasContainer extends React.Component {
             alignItems: "center"
             };
         return (
-            <div id="canvas-container" style={style}>
-                <canvas id="maincanvas" ref="canvas"></canvas>
+            <div id="canvas-layer" style={style}>
+                <canvas id="main-canvas" ref="canvas"></canvas>
             </div>
         );
     }
 
     componentDidMount() {
-        canvas = document.getElementById("maincanvas");
+        canvas = document.getElementById("main-canvas");
         ctx = canvas.getContext("2d");
         ctx.canvas.width  = BOARD_SIZE;
         ctx.canvas.height = BOARD_SIZE;
@@ -119,4 +119,4 @@ class CanvasContainer extends React.Component {
         this.drawGrid();
     }
 }
-export default CanvasContainer;
+export default CanvasLayer;

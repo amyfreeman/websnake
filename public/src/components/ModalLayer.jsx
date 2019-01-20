@@ -1,7 +1,7 @@
 import React from "react";
 import ModalContent from "./ModalContent.jsx";
 
-class Modal extends React.Component {
+class ModalLayer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +27,7 @@ class Modal extends React.Component {
             justifyContent: "center", alignItems: "center",
         };
         return (
-            <div id="Modal" style={style}>
+            <div id="modal-layer" style={style}>
                 <ModalContent registerHandler={this.props.registerHandler} send={this.props.send}/>
             </div>
         );
@@ -43,4 +43,4 @@ class Modal extends React.Component {
         }
     }
 }
-export default Modal;
+export default ModalLayer;
