@@ -5,13 +5,3 @@
     -o-transition: opacity 1s ease-in-out;
     transition: opacity 1s ease-in-out;
 }
-
-:local(.nickname-input) {
-    padding:8px;
-    display:block;
-    border:none;
-    border-bottom:1px solid #ccc;
-    width:100%
-}
-
-:local(::-webkit-input-placeholder){color:inherit;opacity:0.54;line-height:1.5em}

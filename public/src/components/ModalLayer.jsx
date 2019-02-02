@@ -1,5 +1,7 @@
 import React from "react";
-import ModalContent from "./ModalContent.jsx";
+import HomeModal from "./HomeModal.jsx";
+import WaitingModal from "./WaitingModal.jsx";
+import GameStartingModal from "./GameStartingModal.jsx";
 
 class ModalLayer extends React.Component {
     constructor(props) {
@@ -28,7 +30,7 @@ class ModalLayer extends React.Component {
         };
         return (
             <div id="modal-layer" style={style}>
-                <ModalContent registerHandler={this.props.registerHandler} send={this.props.send}/>
+                <GameStartingModal registerHandler={this.props.registerHandler} send={this.props.send}/>
             </div>
         );
     }

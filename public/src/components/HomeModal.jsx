@@ -1,5 +1,5 @@
 import React from "react";
-import css from './ModalContent.css';
+import css from './HomeModal.css';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -27,7 +27,7 @@ const styles = {
     },
 };
 
-class ModalContent extends React.Component {
+class HomeModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -44,39 +44,10 @@ class ModalContent extends React.Component {
     }
 
     render() {
-        /*var divStyle = {
-            display: "flex",
-            justifyContent: "center", alignItems: "center",
-            flexDirection: "column",
-            fontFamily: "Courier New, Courier, monospace",
-            opacity: this.state.opacity,
-        }
-        var h1Style = {
-            color:"#FFFFFF",
-            fontSize: "5em",
-        };
-        var inputStyle = {
-            marginBottom: "10px",
-            fontSize: "1em",
-            lineHeight: "1.5em",
-        };*/
         return (
-            /*<div className="ModalContent" style={divStyle} id="ModalContent">
-                <h1 style={h1Style}>{this.state.message}</h1>
-                {
-                    this.state.inputsVisible?
-                    <div style={{width: "100%"}}>
-                        {this.state.nicknameInputVisible?
-                        <input id="nickname-input" className="nickname-input" style={inputStyle} type="text" placeholder="Nickname"></input> :
-                        null}
-                        <Button label={"Start a Game"} onClick={this.startButtonPress} />
-                    </div> :
-                    null
-                }
-            </div>*/
             <div className={this.props.classes.div}>
                 <Typography className={this.props.classes.typography} variant="h5" component="h3">
-                    {this.state.message}
+                    WEBSNAKE
                 </Typography>
                 <Paper className={this.props.classes.paper}>
                     {
@@ -191,4 +162,4 @@ class ModalContent extends React.Component {
     }
 }
 
-export default withStyles(styles)(ModalContent);
+export default withStyles(styles)(HomeModal);
